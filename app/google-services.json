@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "786480407839",
+    "project_id": "bookmanagerminiproject",
+    "storage_bucket": "bookmanagerminiproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:786480407839:android:863c18423a0ae55de5fc2a",
+        "android_client_info": {
+          "package_name": "com.nttuong.managerbook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "786480407839-v6eh4gghfg8ishbu5us9drde4bcha2kv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nttuong.managerbook",
+            "certificate_hash": "5a62acafa90a7382a4bca8b942c5a2db54f2d807"
+          }
+        },
+        {
+          "client_id": "786480407839-7p0v93f5u3diaoprl12cjod5mr78p85r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpzI1IIp7Zow0RRn7hKIaWOR0WgaFKh5M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "786480407839-7p0v93f5u3diaoprl12cjod5mr78p85r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
