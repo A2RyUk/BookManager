@@ -60,6 +60,7 @@ class BookFragment : Fragment(),
         bookViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application))[BookViewModel::class.java]
         bookViewModel.getAllBookList.observe(viewLifecycleOwner) { list ->
             list?.let {
+                updateListAuthor(it)
                 adapter.updateList(it)
             }
         }
@@ -152,5 +153,26 @@ class BookFragment : Fragment(),
 
     override fun onEditBookDialogNegativeClick(book: Book?) {
         Toast.makeText(requireContext(), "You click cancel", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun updateListAuthor(books: List<Book>) {
+        if (books != null) {
+            bookViewModel.getAllAuthorList.observe(viewLifecycleOwner){ list ->
+                list?.let { authors ->
+                    if (authors != null) {
+                        for (i in 0 until authors.size) {
+                            var countBookNumber = 0
+                            for (j in 0 until books.size) {
+                                if (authors[i].authorName == books[j].author) {
+                                    countBookNumber++
+                                }
+                            }
+                            authors[i].numberOfBook = countBookNumber
+                            bookViewModel.authorUpdate(authors[i])
+                        }
+                    }
+                }
+            }
+        }
     }
 }

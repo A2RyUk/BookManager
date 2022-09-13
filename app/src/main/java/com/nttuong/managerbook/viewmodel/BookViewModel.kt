@@ -41,4 +41,8 @@ class BookViewModel(application: Application): AndroidViewModel(application) {
     fun bookDelete(book: Book) = viewModelScope.launch(Dispatchers.IO) {
         bookRepository.deleteBook(book)
     }
+
+    fun authorUpdate(author: Author) = viewModelScope.launch(Dispatchers.IO) {
+        authorRepository.updateAuthor(author)
+    }
 }

@@ -55,8 +55,8 @@ class AuthorFragment : Fragment(),
         authorViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application))
             .get(AuthorViewModel::class.java)
         authorViewModel.getAllAuthorList.observe(viewLifecycleOwner) { list ->
-            list?.let {
-                adapter.updateList(it)
+            list?.let { listAuthors ->
+                adapter.updateList(listAuthors)
             }
         }
 
@@ -115,22 +115,7 @@ class AuthorFragment : Fragment(),
 
     override fun onAddAuthorDialogPositiveClick(author: Author?) {
         if (author != null) {
-            authorViewModel.getAllBookList.observe(viewLifecycleOwner) { list ->
-                list?.let { list1 ->
-                    var count = 0
-                    for (i in list1.indices) {
-                        if (author.authorName == list1[i].author) {
-                            count++
-                        }
-                    }
-                    author.numberOfBook = count
-                    authorViewModel.getAllAuthorList.observe(viewLifecycleOwner) { list ->
-                        list?.let {
-
-                        }
-                    }
-                }
-            }
+            authorViewModel.authorInsert(author)
         } else {
             Toast.makeText(requireContext(), "Don have Author to add", Toast.LENGTH_SHORT).show()
         }

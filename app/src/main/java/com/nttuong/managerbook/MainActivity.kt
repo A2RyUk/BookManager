@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val tabTitles = arrayOf("Book", "Category", "Author")
+        val tabTitles = arrayOf("Sách", "Thể Loại", "Tác Giả")
         binding.vpBook.adapter = ViewPagerAdapter(this)
         TabLayoutMediator(binding.tabMain, binding.vpBook){
                 tab, position -> tab.text = tabTitles[position]

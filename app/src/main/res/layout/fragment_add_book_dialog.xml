@@ -19,74 +19,80 @@
                 android:id="@+id/txt_addBook"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:text="Add Book"
-                android:textStyle="bold"
-                android:textSize="24sp"
                 android:layout_marginTop="8dp"
-                android:textColor="@color/black"/>
+                android:text="Thêm Sách"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_bookId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txt_addBook"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txt_addBook" />
 
             <EditText
                 android:id="@+id/edt_bookAvatar"
-                app:layout_constraintTop_toBottomOf="@id/tv_bookId"
-                android:layout_marginTop="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter Avatar"
-                android:textSize="18sp"/>
+                android:layout_marginTop="8dp"
+                android:hint="Link Ảnh Bìa"
+                android:minHeight="48dp"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_bookId" />
 
             <EditText
                 android:id="@+id/edt_bookName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:hint="Enter Name"
                 android:layout_marginTop="6dp"
+                android:hint="Tên Sách"
+                android:minHeight="48dp"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edt_bookAvatar"/>
+                app:layout_constraintTop_toBottomOf="@id/edt_bookAvatar" />
 
             <EditText
                 android:id="@+id/edt_bookAuthor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:hint="Enter Author"
                 android:layout_marginTop="6dp"
+                android:hint="Tác Giả"
+                android:minHeight="48dp"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edt_bookName"/>
+                app:layout_constraintTop_toBottomOf="@id/edt_bookName" />
 
             <EditText
                 android:id="@+id/edt_bookCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:hint="Enter Category"
                 android:layout_marginTop="6dp"
+                android:hint="Thể Loại"
+                android:minHeight="48dp"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edt_bookAuthor"/>
+                app:layout_constraintTop_toBottomOf="@id/edt_bookAuthor" />
 
-            <EditText
-                android:id="@+id/edt_bookStatus"
+            <Spinner
+                android:id="@+id/spinner_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:hint="Enter Status"
                 android:layout_marginTop="6dp"
+                android:minHeight="48dp"
+                android:textColorHint="#546E7A"
+                android:textSize="18sp"
+                android:hint="Choose Status"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/edt_bookCategory"/>
@@ -95,12 +101,13 @@
                 android:id="@+id/edt_bookContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:hint="Enter Content"
                 android:layout_marginTop="6dp"
+                android:hint="Giới Thiệu"
+                android:minHeight="48dp"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edt_bookStatus"/>
+                app:layout_constraintTop_toBottomOf="@id/spinner_status" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
