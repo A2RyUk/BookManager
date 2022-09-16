@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".DetailBookActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp">
+
+            <ImageView
+                android:id="@+id/img_ava"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="200dp"
+                android:layout_height="288dp"/>
+
+            <TextView
+                android:id="@+id/tv_bookName"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/img_ava"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="Book Name"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tv_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="Author Name"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_bookName"/>
+
+            <Button
+                android:id="@+id/btn_read"
+                android:text="Đọc Truyện"
+                android:textAllCaps="false"
+                android:textSize="24sp"
+                android:textColor="@color/white"
+                android:background="@drawable/btn_read_book"
+                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_author"/>
+
+            <TextView
+                android:id="@+id/tv_status"
+                android:text="Status"
+                android:gravity="center"
+                android:textAllCaps="false"
+                android:textSize="18sp"
+                android:textColor="#B80D00"
+                android:layout_width="166dp"
+                android:layout_height="45dp"
+                android:background="@drawable/btn_tag"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_read"
+                android:layout_marginTop="20dp"/>
+
+            <TextView
+                android:id="@+id/tv_category"
+                android:text="Category"
+                android:gravity="center"
+                android:textAllCaps="false"
+                android:textSize="18sp"
+                android:textColor="#C67700"
+                android:layout_width="166dp"
+                android:layout_height="45dp"
+                android:background="@drawable/btn_tag_yellow"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_read"
+                android:layout_marginTop="20dp"/>
+
+            <TextView
+                android:id="@+id/tv_new"
+                android:text="Mới Nhất"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_status"/>
+
+            <TextView
+                android:id="@+id/tv_chap"
+                android:text="Chương"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_new"/>
+
+            <TextView
+                android:id="@+id/tv_chapNumber"
+                android:layout_marginStart="3dp"
+                android:text="number:"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toEndOf="@+id/tv_chap"
+                app:layout_constraintTop_toBottomOf="@id/tv_new"/>
+
+            <TextView
+                android:id="@+id/tv_chapName"
+                android:layout_marginStart="6dp"
+                android:text="Chap Name"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toEndOf="@+id/tv_chapNumber"
+                app:layout_constraintTop_toBottomOf="@id/tv_new"/>
+
+            <Button
+                android:id="@+id/btn_listChap"
+                android:textAllCaps="false"
+                android:text="Danh sách chương >"
+                android:textSize="18sp"
+                android:textColor="#C67700"
+                android:layout_marginTop="8sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_chapName"
+                android:background="@android:color/transparent"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_listChap"
+                android:background="@drawable/radius_back"
+                android:padding="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:text="Giới Thiệu:"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:id="@+id/tv_content"
+                    android:text="Tàng Thư Viện là sân chơi mở và free cho cộng đồng fan kiếm hiệp, tiên hiệp, ngôn tình. Chúc các bạn có những giây phút thư giãn thoải mái sau giờ làm việc và học tập căng thẳng."
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</FrameLayout>

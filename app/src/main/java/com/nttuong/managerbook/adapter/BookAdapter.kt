@@ -2,6 +2,7 @@ package com.nttuong.managerbook.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.nttuong.managerbook.R
@@ -9,7 +10,8 @@ import com.nttuong.managerbook.databinding.BookItemBinding
 import com.nttuong.managerbook.db.entities.Book
 
 class BookAdapter(
-    private val books: ArrayList<Book>
+    private val books: ArrayList<Book>,
+    private var itemClickListener: ItemClickListener
 ): RecyclerView.Adapter<BookAdapter.ViewHolder>() {
     class ViewHolder(private val binding: BookItemBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(book: Book) {
@@ -38,6 +40,9 @@ class BookAdapter(
         books[position].let {
             holder.bind(it)
         }
+        holder.itemView.setOnClickListener {
+            itemClickListener.itemClick(books[position])
+        }
     }
 
     override fun getItemCount(): Int = books.size
@@ -48,4 +53,8 @@ class BookAdapter(
         books.addAll(myList)
         notifyDataSetChanged()
     }
+}
+
+interface ItemClickListener {
+    fun itemClick(book: Book)
 }

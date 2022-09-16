@@ -1,8 +1,7 @@
 package com.nttuong.managerbook.fragment.book
 
-import android.content.ContentValues.TAG
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,18 +11,19 @@ import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.nttuong.managerbook.DetailBookActivity
 import com.nttuong.managerbook.R
 import com.nttuong.managerbook.adapter.BookAdapter
+import com.nttuong.managerbook.adapter.ItemClickListener
 import com.nttuong.managerbook.databinding.FragmentBookBinding
-import com.nttuong.managerbook.db.entities.Author
 import com.nttuong.managerbook.db.entities.Book
-import com.nttuong.managerbook.viewmodel.AuthorViewModel
 import com.nttuong.managerbook.viewmodel.BookViewModel
 
 class BookFragment : Fragment(),
     AddBookDialog.AddBookDialogListener,
     DeleteBookDialog.DeleteBookDialogListener,
-    EditBookDialog.EditBookDialogListener {
+    EditBookDialog.EditBookDialogListener,
+    ItemClickListener {
 
     private val rotateOpen: Animation by lazy { AnimationUtils.loadAnimation(requireContext(), R.anim.rotate_open_anim) }
     private val rotateClose: Animation by lazy { AnimationUtils.loadAnimation(requireContext(), R.anim.rotate_close_anim) }
@@ -65,7 +65,7 @@ class BookFragment : Fragment(),
             }
         }
 
-        adapter = BookAdapter(books)
+        adapter = BookAdapter(books, this)
         binding.rcBook.adapter = adapter
         binding.rcBook.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -174,5 +174,17 @@ class BookFragment : Fragment(),
                 }
             }
         }
+    }
+
+    override fun itemClick(book: Book) {
+        val detailBookIntent = Intent(requireContext(), DetailBookActivity::class.java)
+        detailBookIntent.putExtra("itemClickBookID", book.bookId)
+        detailBookIntent.putExtra("itemClickAvatar", book.avatar)
+        detailBookIntent.putExtra("itemClickName", book.name)
+        detailBookIntent.putExtra("itemClickAuthor", book.author)
+        detailBookIntent.putExtra("itemClickCategory", book.category)
+        detailBookIntent.putExtra("itemClickStatus", book.status)
+        detailBookIntent.putExtra("itemClickContent", book.content)
+        startActivity(detailBookIntent)
     }
 }
