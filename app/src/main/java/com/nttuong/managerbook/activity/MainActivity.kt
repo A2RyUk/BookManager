@@ -1,12 +1,10 @@
-package com.nttuong.managerbook
+package com.nttuong.managerbook.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayoutMediator
 import com.nttuong.managerbook.adapter.ViewPagerAdapter
 import com.nttuong.managerbook.databinding.ActivityMainBinding
-import com.nttuong.managerbook.viewmodel.BookViewModel
 
 class MainActivity : AppCompatActivity() {
 

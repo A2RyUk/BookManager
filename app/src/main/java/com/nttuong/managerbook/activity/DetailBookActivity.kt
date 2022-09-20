@@ -1,17 +1,11 @@
-package com.nttuong.managerbook
+package com.nttuong.managerbook.activity
 
-import android.content.ContentValues.TAG
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.nttuong.managerbook.R
 import com.nttuong.managerbook.databinding.AcitivityDetailBookBinding
-import com.nttuong.managerbook.db.entities.Book
-import com.nttuong.managerbook.viewmodel.BookViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 
 class DetailBookActivity : AppCompatActivity() {
@@ -25,6 +19,12 @@ class DetailBookActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         updateUI()
+        var id = intent.getStringExtra("itemClickBookID")
+        binding.btnListChap.setOnClickListener {
+            val intentListChapter = Intent(this, ListChapterActivity::class.java)
+            intentListChapter.putExtra("bookIdForChapter", id)
+            startActivity(intentListChapter)
+        }
     }
 
     private fun updateUI() {

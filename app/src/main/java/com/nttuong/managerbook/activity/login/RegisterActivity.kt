@@ -1,4 +1,4 @@
-package com.nttuong.managerbook
+package com.nttuong.managerbook.activity.login
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -6,7 +6,6 @@ import android.text.TextUtils
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.ktx.Firebase
 import com.nttuong.managerbook.databinding.ActivityRegisterBinding
 
 class RegisterActivity : AppCompatActivity() {

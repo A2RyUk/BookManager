@@ -1,13 +1,12 @@
-package com.nttuong.managerbook
+package com.nttuong.managerbook.activity.login
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.nttuong.managerbook.activity.MainActivity
 import com.nttuong.managerbook.databinding.ActivityLoginBinding
-import com.nttuong.managerbook.databinding.ActivityMainBinding
-import com.nttuong.managerbook.databinding.ActivityRegisterBinding
 
 class LoginActivity : AppCompatActivity() {
 

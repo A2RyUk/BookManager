@@ -2,7 +2,6 @@ package com.nttuong.managerbook.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.nttuong.managerbook.R

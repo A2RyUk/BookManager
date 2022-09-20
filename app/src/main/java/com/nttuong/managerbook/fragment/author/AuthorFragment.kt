@@ -1,8 +1,6 @@
 package com.nttuong.managerbook.fragment.author
 
-import android.content.ContentValues.TAG
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,15 +9,21 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nttuong.managerbook.R
 import com.nttuong.managerbook.adapter.AuthorAdapter
 import com.nttuong.managerbook.databinding.FragmentAuthorBinding
 import com.nttuong.managerbook.db.entities.Author
-import com.nttuong.managerbook.viewmodel.AuthorViewModel
+import com.nttuong.managerbook.db.entities.Book
+import com.nttuong.managerbook.viewmodel.BookManagerViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class AuthorFragment : Fragment(),
-    AddAuthorDialog.AddAuthorDialogListener {
+    AddAuthorDialog.AddAuthorDialogListener,
+    DeleteAuthorDialog.DeleteAuthorDialogListener,
+    EditAuthorDialog.EditAuthorDialogListener {
     private val rotateOpen: Animation by lazy { AnimationUtils.loadAnimation(requireContext(), R.anim.rotate_open_anim) }
     private val rotateClose: Animation by lazy { AnimationUtils.loadAnimation(requireContext(), R.anim.rotate_close_anim) }
     private val fromBottom: Animation by lazy { AnimationUtils.loadAnimation(requireContext(), R.anim.from_bottom_anim) }
@@ -29,7 +33,7 @@ class AuthorFragment : Fragment(),
     private lateinit var binding: FragmentAuthorBinding
     private lateinit var adapter: AuthorAdapter
     private val authors = arrayListOf<Author>()
-    private lateinit var authorViewModel: AuthorViewModel
+    private lateinit var viewModel: BookManagerViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,15 +50,17 @@ class AuthorFragment : Fragment(),
             dialog.show(childFragmentManager, "addAuthorDialog")
         }
         binding.btnEdit.setOnClickListener {
-
+            val dialog = EditAuthorDialog()
+            dialog.show(childFragmentManager, "editAuthorDialog")
         }
         binding.btnDelete.setOnClickListener {
-
+            val dialog = DeleteAuthorDialog()
+            dialog.show(childFragmentManager, "deleteAuthorDialog")
         }
 
-        authorViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application))
-            .get(AuthorViewModel::class.java)
-        authorViewModel.getAllAuthorList.observe(viewLifecycleOwner) { list ->
+        viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application))
+            .get(BookManagerViewModel::class.java)
+        viewModel.getAllAuthorList.observe(viewLifecycleOwner) { list ->
             list?.let { listAuthors ->
                 adapter.updateList(listAuthors)
             }
@@ -113,15 +119,41 @@ class AuthorFragment : Fragment(),
         }
     }
 
+
+    //add
     override fun onAddAuthorDialogPositiveClick(author: Author?) {
         if (author != null) {
-            authorViewModel.authorInsert(author)
+            viewModel.getBookNumberAndInsertAuthor(author)
         } else {
             Toast.makeText(requireContext(), "Don have Author to add", Toast.LENGTH_SHORT).show()
         }
     }
-
     override fun onAddAuthorDialogNegativeClick(author: Author?) {
+        Toast.makeText(requireContext(), "You click cancel", Toast.LENGTH_SHORT).show()
+    }
+
+
+    //delete
+    override fun onDeleteAuthorDialogPositiveClick(authorId: Int?) {
+        if (authorId != null) {
+            val deleteIndex = authors.indexOf(Author(authorId))
+            viewModel.authorDelete(authors[deleteIndex])
+        } else {
+            Toast.makeText(requireContext(), "Don have Author to delete", Toast.LENGTH_SHORT).show()
+        }
+    }
+    override fun onDeleteAuthorDialogNegativeClick(authorId: Int?) {
+        Toast.makeText(requireContext(), "You click cancel", Toast.LENGTH_SHORT).show()
+    }
+
+
+    //edit
+    override fun onEditAuthorDialogPositiveClick(author: Author?) {
+        if (author != null) {
+            viewModel.authorUpdate(author)
+        }
+    }
+    override fun onEditAuthorDialogNegativeClick(author: Author?) {
         Toast.makeText(requireContext(), "You click cancel", Toast.LENGTH_SHORT).show()
     }
 }

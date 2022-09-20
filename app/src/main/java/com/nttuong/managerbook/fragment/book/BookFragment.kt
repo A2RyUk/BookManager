@@ -11,13 +11,13 @@ import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.nttuong.managerbook.DetailBookActivity
+import com.nttuong.managerbook.activity.DetailBookActivity
 import com.nttuong.managerbook.R
 import com.nttuong.managerbook.adapter.BookAdapter
 import com.nttuong.managerbook.adapter.ItemClickListener
 import com.nttuong.managerbook.databinding.FragmentBookBinding
 import com.nttuong.managerbook.db.entities.Book
-import com.nttuong.managerbook.viewmodel.BookViewModel
+import com.nttuong.managerbook.viewmodel.BookManagerViewModel
 
 class BookFragment : Fragment(),
     AddBookDialog.AddBookDialogListener,
@@ -32,7 +32,7 @@ class BookFragment : Fragment(),
     private var clicked = false
 
     private lateinit var binding: FragmentBookBinding
-    lateinit var bookViewModel: BookViewModel
+    lateinit var viewModel: BookManagerViewModel
     private lateinit var adapter: BookAdapter
     private val books = arrayListOf<Book>()
 
@@ -50,17 +50,17 @@ class BookFragment : Fragment(),
             dialog.show(childFragmentManager, "addBookDialog")
         }
         binding.btnEdit.setOnClickListener {
-
+            val dialog = EditBookDialog()
+            dialog.show(childFragmentManager, "editBookDialog")
         }
         binding.btnDelete.setOnClickListener {
             val dialog = DeleteBookDialog()
             dialog.show(childFragmentManager, "deleteBookDialog")
         }
 
-        bookViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application))[BookViewModel::class.java]
-        bookViewModel.getAllBookList.observe(viewLifecycleOwner) { list ->
+        viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application))[BookManagerViewModel::class.java]
+        viewModel.getAllBookList.observe(viewLifecycleOwner) { list ->
             list?.let {
-                updateListAuthor(it)
                 adapter.updateList(it)
             }
         }
@@ -73,13 +73,15 @@ class BookFragment : Fragment(),
         return binding.root
     }
 
+
+
+    //set button
     private fun onShowButtonClicked(){
         setVisibility(clicked)
         setAnimation(clicked)
         setClickable(clicked)
         clicked = !clicked
     }
-
     private fun setVisibility(clicked: Boolean) {
         if(!clicked) {
             binding.btnAdd.visibility = View.VISIBLE
@@ -91,7 +93,6 @@ class BookFragment : Fragment(),
             binding.btnDelete.visibility = View.INVISIBLE
         }
     }
-
     private fun setAnimation(clicked: Boolean) {
         if(!clicked) {
             binding.btnAdd.startAnimation(fromBottom)
@@ -105,7 +106,6 @@ class BookFragment : Fragment(),
             binding.btnMenu.startAnimation(rotateClose)
         }
     }
-
     private fun setClickable(clicked: Boolean) {
         if(!clicked) {
             binding.btnAdd.isClickable = true
@@ -118,67 +118,51 @@ class BookFragment : Fragment(),
         }
     }
 
+
+
+    //add book
     override fun onAddBookDialogPositiveClick(book: Book?) {
         if (book != null) {
-            bookViewModel.bookInsert(book)
+            viewModel.insertBookAndUpdateAuthorAndCategory(book)
         } else {
             Toast.makeText(requireContext(), "Don have Book to add", Toast.LENGTH_SHORT).show()
         }
     }
-
     override fun onAddBookDialogNegativeClick(book: Book?) {
         Toast.makeText(requireContext(), "You click cancel", Toast.LENGTH_SHORT).show()
     }
 
+
+    //delete book
     override fun onDeleteBookDialogPositiveClick(bookId: Int?) {
         if (bookId != null) {
             val deleteIndex = books.indexOf(Book(bookId))
-            bookViewModel.bookDelete(books[deleteIndex])
+            viewModel.deleteBookAndUpdateAuthorAndCategory(books[deleteIndex])
         } else {
             Toast.makeText(requireContext(), "Don have Book to delete", Toast.LENGTH_SHORT).show()
         }
     }
-
     override fun onDeleteBookDialogNegativeClick(bookId: Int?) {
         Toast.makeText(requireContext(), "You click cancel", Toast.LENGTH_SHORT).show()
     }
 
+
+    //edit book
     override fun onEditBookDialogPositiveClick(book: Book?) {
         if (book != null) {
-            bookViewModel.bookUpdate(book)
+            viewModel.editBookAndUpdateAuthorAndCategory(book)
         } else {
             Toast.makeText(requireContext(), "Don have Book to add", Toast.LENGTH_SHORT).show()
         }
     }
-
     override fun onEditBookDialogNegativeClick(book: Book?) {
         Toast.makeText(requireContext(), "You click cancel", Toast.LENGTH_SHORT).show()
     }
 
-    private fun updateListAuthor(books: List<Book>) {
-        if (books != null) {
-            bookViewModel.getAllAuthorList.observe(viewLifecycleOwner){ list ->
-                list?.let { authors ->
-                    if (authors != null) {
-                        for (i in 0 until authors.size) {
-                            var countBookNumber = 0
-                            for (j in 0 until books.size) {
-                                if (authors[i].authorName == books[j].author) {
-                                    countBookNumber++
-                                }
-                            }
-                            authors[i].numberOfBook = countBookNumber
-                            bookViewModel.authorUpdate(authors[i])
-                        }
-                    }
-                }
-            }
-        }
-    }
 
     override fun itemClick(book: Book) {
         val detailBookIntent = Intent(requireContext(), DetailBookActivity::class.java)
-        detailBookIntent.putExtra("itemClickBookID", book.bookId)
+        detailBookIntent.putExtra("itemClickBookID", book.bookId.toString())
         detailBookIntent.putExtra("itemClickAvatar", book.avatar)
         detailBookIntent.putExtra("itemClickName", book.name)
         detailBookIntent.putExtra("itemClickAuthor", book.author)

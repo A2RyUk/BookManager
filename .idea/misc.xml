@@ -9,11 +9,13 @@
         <entry key="..\:/AndroidT3HThayDoan/ManagerBook/app/src/main/res/drawable/ic_add.xml" value="0.192" />
         <entry key="..\:/AndroidT3HThayDoan/ManagerBook/app/src/main/res/drawable/radius_back.xml" value="0.193" />
         <entry key="..\:/AndroidT3HThayDoan/ManagerBook/app/src/main/res/layout/acitivity_detail_book.xml" value="0.28730226592560926" />
+        <entry key="..\:/AndroidT3HThayDoan/ManagerBook/app/src/main/res/layout/activity_list_chapter.xml" value="0.28730226592560926" />
         <entry key="..\:/AndroidT3HThayDoan/ManagerBook/app/src/main/res/layout/activity_login.xml" value="0.35052083333333334" />
         <entry key="..\:/AndroidT3HThayDoan/ManagerBook/app/src/main/res/layout/activity_main.xml" value="0.35052083333333334" />
         <entry key="..\:/AndroidT3HThayDoan/ManagerBook/app/src/main/res/layout/activity_register.xml" value="0.35052083333333334" />
         <entry key="..\:/AndroidT3HThayDoan/ManagerBook/app/src/main/res/layout/author_item.xml" value="0.2839662447257384" />
         <entry key="..\:/AndroidT3HThayDoan/ManagerBook/app/src/main/res/layout/book_item.xml" value="0.35052083333333334" />
+        <entry key="..\:/AndroidT3HThayDoan/ManagerBook/app/src/main/res/layout/chapter_item.xml" value="0.2864471996579735" />
         <entry key="..\:/AndroidT3HThayDoan/ManagerBook/app/src/main/res/layout/dropdown_statusitem.xml" value="0.2868747327917914" />
         <entry key="..\:/AndroidT3HThayDoan/ManagerBook/app/src/main/res/layout/fragment_add_author_dialog.xml" value="0.33" />
         <entry key="..\:/AndroidT3HThayDoan/ManagerBook/app/src/main/res/layout/fragment_add_book_dialog.xml" value="0.35052083333333334" />

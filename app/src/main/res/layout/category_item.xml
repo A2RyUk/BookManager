@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="140dp"
+    android:layout_height="230dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingStart="3dp"
+    android:paddingEnd="3dp"
+    android:paddingTop="3dp">
+
+    <ImageView
+        android:id="@+id/img_avatar"
+        android:layout_width="match_parent"
+        android:layout_height="165dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_categoryName"
+        android:textSize="18sp"
+        android:textColor="#03A9F4"
+        android:layout_marginTop="6dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/img_avatar"/>
+
+    <TextView
+        android:id="@+id/tv_bookNumber"
+        android:textSize="14sp"
+        android:textColor="#03A9F4"
+        android:layout_marginTop="6dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_categoryName"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
