@@ -1,4 +1,4 @@
-package com.nttuong.managerbook.activity.login
+package com.nttuong.managerbook.adapter.login
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

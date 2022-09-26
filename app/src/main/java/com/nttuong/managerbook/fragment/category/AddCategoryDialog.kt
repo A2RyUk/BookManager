@@ -2,25 +2,12 @@ package com.nttuong.managerbook.fragment.category
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.ContentValues
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.fragment.app.DialogFragment
 import com.nttuong.managerbook.R
-import com.nttuong.managerbook.databinding.FragmentAddAuthorDialogBinding
-import com.nttuong.managerbook.databinding.FragmentAddBookDialogBinding
 import com.nttuong.managerbook.databinding.FragmentAddCategoryDialogBinding
-import com.nttuong.managerbook.db.entities.Author
-import com.nttuong.managerbook.db.entities.Book
 import com.nttuong.managerbook.db.entities.Category
-import com.nttuong.managerbook.fragment.book.AddBookDialog
 
 class AddCategoryDialog : DialogFragment() {
 

@@ -2,8 +2,9 @@ package com.nttuong.managerbook.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.google.android.material.tabs.TabLayoutMediator
-import com.nttuong.managerbook.adapter.ViewPagerAdapter
+import androidx.navigation.findNavController
+import androidx.navigation.ui.setupWithNavController
+import com.nttuong.managerbook.R
 import com.nttuong.managerbook.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -15,11 +16,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val tabTitles = arrayOf("Sách", "Thể Loại", "Tác Giả")
-        binding.vpBook.adapter = ViewPagerAdapter(this)
-        TabLayoutMediator(binding.tabMain, binding.vpBook){
-                tab, position -> tab.text = tabTitles[position]
-        }.attach()
+        val navController = findNavController(R.id.fragmentContainerView)
+        binding.bottomNavigationView.setupWithNavController(navController)
     }
 
 }

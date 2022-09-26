@@ -1,10 +1,9 @@
 package com.nttuong.managerbook.viewmodel
 
 import android.app.Application
-import android.content.ContentValues.TAG
+import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.nttuong.managerbook.db.BookManagerDataBase
@@ -22,7 +21,7 @@ class BookManagerViewModel(application: Application): AndroidViewModel(applicati
     var getAllBookList: LiveData<List<Book>>
     var getAllAuthorList: LiveData<List<Author>>
     var getAllCategoryList: LiveData<List<Category>>
-    var getAllChapterById: LiveData<List<Chapter>>
+    var getAllChapters: LiveData<List<Chapter>>
 
     var bookManagerRepository: BookManagerRepository
 
@@ -32,7 +31,7 @@ class BookManagerViewModel(application: Application): AndroidViewModel(applicati
         getAllBookList = bookManagerRepository.getAllBooks
         getAllAuthorList = bookManagerRepository.getAllAuthors
         getAllCategoryList = bookManagerRepository.getAllCategories
-        getAllChapterById = bookManagerRepository.getAllChapters
+        getAllChapters = bookManagerRepository.getAllChapters
     }
 
     //Author
@@ -128,15 +127,42 @@ class BookManagerViewModel(application: Application): AndroidViewModel(applicati
     }
 
     //chapter
-    fun chapterInsert(chapter: Chapter) = viewModelScope.launch(Dispatchers.IO) {
+    fun chapterInsert(chapter: Chapter, bookName: String) = viewModelScope.launch(Dispatchers.IO) {
+        chapter.bookName = bookName
         bookManagerRepository.insertChapter(chapter)
     }
-
     fun chapterUpdate(chapter: Chapter) = viewModelScope.launch(Dispatchers.IO) {
         bookManagerRepository.updateChapter(chapter)
     }
-
     fun chapterDelete(chapter: Chapter) = viewModelScope.launch(Dispatchers.IO) {
         bookManagerRepository.deleteChapter(chapter)
+    }
+
+    fun getListChaptersByBookName(bookName: String, listAllChapter: List<Chapter>): List<Chapter> {
+        var listChapter = arrayListOf<Chapter>()
+        for (i in listAllChapter.indices) {
+            if (bookName == listAllChapter[i].bookName) {
+                listChapter.add(listAllChapter[i])
+            }
+        }
+        return listChapter
+    }
+
+    fun getNextChapter(chapterName: String, bookName: String, listAllChapter: List<Chapter>) : Chapter {
+        var listChapter = arrayListOf<Chapter>()
+        for (i in listAllChapter.indices) {
+            if (bookName == listAllChapter[i].bookName) {
+                listChapter.add(listAllChapter[i])
+            }
+        }
+        var currentChapterIndex = 0
+        for (i in listChapter.indices) {
+            if (listChapter[i].chapName == chapterName) {
+                currentChapterIndex = i
+            }
+        }
+        var nextChapterIndex = currentChapterIndex?.plus(1)
+        Log.d("next", "chap index: $nextChapterIndex ")
+        return listChapter[nextChapterIndex!!]
     }
 }

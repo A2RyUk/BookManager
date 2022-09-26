@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Thể Loại"
+        android:enabled="true"
+        android:id="@+id/categoryFragment"
+        android:icon="@drawable/ic_category"/>
+
+    <item android:title="Thư Viện"
+        android:enabled="true"
+        android:id="@+id/libraryFragment"
+        android:icon="@drawable/ic_library"/>
+
+    <item android:title="Tìm Truyện"
+        android:enabled="true"
+        android:id="@+id/searchFragment"
+        android:icon="@drawable/ic_search"/>
+
+    <item android:title="Tủ Sách"
+        android:enabled="true"
+        android:id="@+id/bookcaseFragment"
+        android:icon="@drawable/ic_bookcase"/>
+
+    <item android:title="Tài Khoản"
+        android:enabled="true"
+        android:id="@+id/accountFragment"
+        android:icon="@drawable/ic_account"/>
+</menu>

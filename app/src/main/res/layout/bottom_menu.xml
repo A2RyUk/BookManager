@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/ll_bottomMenu">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="#03A9F4"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <ImageButton
+            android:id="@+id/btn_prev"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@android:color/transparent"
+            android:padding="8dp"
+            android:src="@drawable/prev_chap" />
+
+        <ImageButton
+            android:id="@+id/btn_next"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@android:color/transparent"
+            android:padding="8dp"
+            android:layout_marginStart="30dp"
+            android:src="@drawable/next_chap" />
+
+        <TextView
+            android:id="@+id/txt_chapReadNumber"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"/>
+
+        <ImageButton
+            android:id="@+id/btn_bookMark"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/bookmark" />
+
+        <ImageButton
+            android:id="@+id/btn_comment"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="10dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/comment_chap" />
+
+        <ImageButton
+            android:id="@+id/btn_favorite"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="10dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/favorite_chap" />
+
+
+    </LinearLayout>
+</LinearLayout>

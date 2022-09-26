@@ -17,12 +17,13 @@ class DetailBookActivity : AppCompatActivity() {
 
         binding = AcitivityDetailBookBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         updateUI()
-        var id = intent.getStringExtra("itemClickBookID")
+
+        var bookName = intent.getStringExtra("itemClickName")
+
         binding.btnListChap.setOnClickListener {
             val intentListChapter = Intent(this, ListChapterActivity::class.java)
-            intentListChapter.putExtra("bookIdForChapter", id)
+            intentListChapter.putExtra("bookNameForChapter", bookName)
             startActivity(intentListChapter)
         }
     }

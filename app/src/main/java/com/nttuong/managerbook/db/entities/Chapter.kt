@@ -7,10 +7,23 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "chapter_table")
 data class Chapter(
     @PrimaryKey(autoGenerate = true) val chapterId: Int?,
-    @ColumnInfo(name = "bookName") var bookName: String?,
-    @ColumnInfo(name = "chapNumber") var chapNumber: Int?,
-    @ColumnInfo(name = "chapName") var chapName: String?,
-    @ColumnInfo(name = "content") var content: String?
+    @ColumnInfo(name = "bookName") var bookName: String? = "",
+    @ColumnInfo(name = "chapNumber") var chapNumber: Int? = null,
+    @ColumnInfo(name = "chapName") var chapName: String? = "",
+    @ColumnInfo(name = "content") var content: String? = ""
 ) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
 
+        other as Chapter
+
+        if (chapterId != other.chapterId) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return chapterId ?: 0
+    }
 }

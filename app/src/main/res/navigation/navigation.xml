@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/categoryFragment">
+
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="com.nttuong.managerbook.fragment.category.CategoryFragment"
+        android:label="fragment_category"
+        tools:layout="@layout/fragment_category" />
+    <fragment
+        android:id="@+id/libraryFragment"
+        android:name="com.nttuong.managerbook.fragment.LibraryFragment"
+        android:label="fragment_library"
+        tools:layout="@layout/fragment_library" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.nttuong.managerbook.fragment.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/bookcaseFragment"
+        android:name="com.nttuong.managerbook.fragment.BookcaseFragment"
+        android:label="fragment_bookcase"
+        tools:layout="@layout/fragment_bookcase" />
+    <fragment
+        android:id="@+id/accountFragment"
+        android:name="com.nttuong.managerbook.fragment.AccountFragment"
+        android:label="fragment_account"
+        tools:layout="@layout/fragment_account" />
+</navigation>

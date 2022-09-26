@@ -8,6 +8,7 @@ import com.nttuong.managerbook.db.entities.Book
 import com.nttuong.managerbook.db.entities.Category
 import com.nttuong.managerbook.db.entities.Chapter
 import com.nttuong.managerbook.db.relationship.AuthorAndBook
+import com.nttuong.managerbook.db.relationship.BookAndChapter
 import com.nttuong.managerbook.db.relationship.CategoryAndBook
 
 class BookManagerRepository(private val bookManagerDao: BookManagerDao) {
@@ -69,8 +70,8 @@ class BookManagerRepository(private val bookManagerDao: BookManagerDao) {
     }
 
     //relationship
-    fun getListChaptersOfBook(bookName: String) {
-        bookManagerDao.getListChaptersOfBook(bookName)
+    fun getListChaptersOfBook(bookName: String) : List<BookAndChapter> {
+        return bookManagerDao.getListChaptersOfBook(bookName)
     }
 
     fun getListBooksOfCategory(categoryName: String) : List<CategoryAndBook> {
