@@ -22,13 +22,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:text="Edit Author"
+                android:text="Sửa Tác Giả"
                 android:textStyle="bold"
                 android:textSize="24sp"
                 android:layout_marginTop="8dp"
                 android:textColor="@color/black"/>
 
-            <EditText
+            <TextView
                 android:layout_marginTop="10dp"
                 android:id="@+id/edt_authorId"
                 android:hint="Enter AuthorId"

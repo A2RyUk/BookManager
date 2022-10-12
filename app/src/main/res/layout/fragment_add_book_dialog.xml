@@ -72,14 +72,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/edt_bookName" />
 
-            <EditText
-                android:id="@+id/edt_bookCategory"
+            <Spinner
+                android:id="@+id/spinner_category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:hint="Thể Loại"
                 android:minHeight="48dp"
+                android:textColorHint="#546E7A"
                 android:textSize="18sp"
+                android:hint="Choose Category"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/edt_bookAuthor" />
@@ -95,7 +96,7 @@
                 android:hint="Choose Status"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edt_bookCategory"/>
+                app:layout_constraintTop_toBottomOf="@id/spinner_category"/>
 
             <EditText
                 android:id="@+id/edt_bookContent"

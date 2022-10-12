@@ -22,15 +22,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:text="Add Book"
+                android:text="Sửa Thông Tin Sách"
                 android:textStyle="bold"
                 android:textSize="24sp"
                 android:layout_marginTop="8dp"
                 android:textColor="@color/black"/>
 
-            <EditText
+            <TextView
                 android:id="@+id/edt_bookId"
-                android:hint="Enter Book ID"
                 android:textSize="18sp"
                 android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -72,27 +71,31 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/edt_bookName"/>
 
-            <EditText
-                android:id="@+id/edt_bookCategory"
+            <Spinner
+                android:id="@+id/spinner_category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:hint="Enter Category"
                 android:layout_marginTop="6dp"
+                android:minHeight="48dp"
+                android:textColorHint="#546E7A"
+                android:textSize="18sp"
+                android:hint="Choose Category"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edt_bookAuthor"/>
+                app:layout_constraintTop_toBottomOf="@id/edt_bookAuthor" />
 
-            <EditText
-                android:id="@+id/edt_bookStatus"
+            <Spinner
+                android:id="@+id/spinner_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:hint="Enter Status"
                 android:layout_marginTop="6dp"
+                android:minHeight="48dp"
+                android:textColorHint="#546E7A"
+                android:textSize="18sp"
+                android:hint="Choose Status"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edt_bookCategory"/>
+                app:layout_constraintTop_toBottomOf="@id/spinner_category"/>
 
             <EditText
                 android:id="@+id/edt_bookContent"
@@ -103,7 +106,7 @@
                 android:layout_marginTop="6dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edt_bookStatus"/>
+                app:layout_constraintTop_toBottomOf="@id/spinner_status"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

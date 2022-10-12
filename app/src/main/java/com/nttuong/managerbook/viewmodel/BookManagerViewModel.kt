@@ -34,135 +34,67 @@ class BookManagerViewModel(application: Application): AndroidViewModel(applicati
         getAllChapters = bookManagerRepository.getAllChapters
     }
 
-    //Author
-    //getNumberOfBook when add Author
-    fun getBookNumberAndInsertAuthor(author: Author) = viewModelScope.launch(Dispatchers.IO) {
-        author.numberOfBook = 0
-        var listAuthorAndBook : List<AuthorAndBook> = bookManagerRepository.getListBooksOfAuthor(author.authorName!!)
-        for (aab in listAuthorAndBook) {
-            author.numberOfBook = aab.books.size
+    //get all category to arrayString
+    fun getAllCategoryToString(listCategory: List<Category>): List<String> {
+        var listStringCategory = arrayListOf<String>()
+        for (i in listCategory.indices) {
+            listStringCategory.add(listCategory[i].categoryName.toString())
         }
+        return listStringCategory
+    }
+
+    fun getCompleteBook(listAllBook: List<Book>) : List<Book> {
+        var completeBook = arrayListOf<Book>()
+        for (i in listAllBook.indices) {
+            if (listAllBook[i].status == "Hoàn Thành") {
+                completeBook.add(listAllBook[i])
+            }
+        }
+        return completeBook
+    }
+
+    //Basic function insert delete edit
+    //Book
+    fun insertBook(book: Book) = viewModelScope.launch(Dispatchers.IO) {
+        bookManagerRepository.insertBook(book)
+    }
+    fun editBook(book: Book) = viewModelScope.launch(Dispatchers.IO) {
+        bookManagerRepository.updateBook(book)
+    }
+    fun deleteBook(id: Int) = viewModelScope.launch(Dispatchers.IO) {
+        bookManagerRepository.deleteBookById(id)
+    }
+
+    //Author
+    fun insertAuthor(author: Author) = viewModelScope.launch(Dispatchers.IO) {
         bookManagerRepository.insertAuthor(author)
     }
-    //delete author
-    fun authorDelete(author: Author) = viewModelScope.launch(Dispatchers.IO) {
-        bookManagerRepository.deleteAuthor(author)
-    }
-    //edit author and update book number
-    fun authorUpdate(author: Author) = viewModelScope.launch(Dispatchers.IO) {
-        author.numberOfBook = 0
-        var listAuthorAndBook : List<AuthorAndBook> = bookManagerRepository.getListBooksOfAuthor(author.authorName!!)
-        for (aab in listAuthorAndBook) {
-            author.numberOfBook = aab.books.size
-        }
+    fun editAuthor(author: Author) = viewModelScope.launch(Dispatchers.IO) {
         bookManagerRepository.updateAuthor(author)
     }
-
-    //Book
-    //updateAuthor when insertBook
-    fun insertBookAndUpdateAuthorAndCategory(book: Book) = viewModelScope.launch(Dispatchers.IO) {
-        bookManagerRepository.insertBook(book)
-        var listAuthorAndBook : List<AuthorAndBook> = bookManagerRepository.getListBooksOfAuthor(book.author!!)
-        for (aab in listAuthorAndBook) {
-            aab.author.numberOfBook = aab.books.size
-            bookManagerRepository.updateAuthor(aab.author)
-        }
-        var listCategoryAndBook : List<CategoryAndBook> = bookManagerRepository.getListBooksOfCategory(book.category!!)
-        for (cab in listCategoryAndBook) {
-            cab.category.bookNumber = cab.books.size
-            bookManagerRepository.updateCategory(cab.category)
-        }
-    }
-    //updateAuthor when deleteBook
-    fun deleteBookAndUpdateAuthorAndCategory(book: Book) = viewModelScope.launch(Dispatchers.IO) {
-        bookManagerRepository.deleteBook(book)
-        var listAuthorAndBook : List<AuthorAndBook> = bookManagerRepository.getListBooksOfAuthor(book.author!!)
-        for (aab in listAuthorAndBook) {
-            aab.author.numberOfBook = aab.books.size
-            bookManagerRepository.updateAuthor(aab.author)
-        }
-        var listCategoryAndBook : List<CategoryAndBook> = bookManagerRepository.getListBooksOfCategory(book.category!!)
-        for (cab in listCategoryAndBook) {
-            cab.category.bookNumber = cab.books.size
-            bookManagerRepository.updateCategory(cab.category)
-        }
-    }
-    //updateAuthor when updateBook
-    fun editBookAndUpdateAuthorAndCategory(book: Book) = viewModelScope.launch(Dispatchers.IO) {
-        bookManagerRepository.updateBook(book)
-        var listAuthorAndBook : List<AuthorAndBook> = bookManagerRepository.getListBooksOfAuthor(book.author!!)
-        for (aab in listAuthorAndBook) {
-            aab.author.numberOfBook = aab.books.size
-            bookManagerRepository.updateAuthor(aab.author)
-        }
-        var listCategoryAndBook : List<CategoryAndBook> = bookManagerRepository.getListBooksOfCategory(book.category!!)
-        for (cab in listCategoryAndBook) {
-            cab.category.bookNumber = cab.books.size
-            bookManagerRepository.updateCategory(cab.category)
-        }
+    fun deleteAuthor(id: Int) = viewModelScope.launch(Dispatchers.IO) {
+        bookManagerRepository.deleteAuthorById(id)
     }
 
-    //category
-    //getNumberOfBook when add Category
-    fun getBookNumberAndInsertCategory(category: Category) = viewModelScope.launch(Dispatchers.IO) {
-        category.bookNumber = 0
-        var listCategoryAndBook : List<CategoryAndBook> = bookManagerRepository.getListBooksOfCategory(category.categoryName!!)
-        for (cab in listCategoryAndBook) {
-            category.bookNumber = cab.books.size
-        }
+    //Category
+    fun insertCategory(category: Category) = viewModelScope.launch(Dispatchers.IO) {
         bookManagerRepository.insertCategory(category)
     }
-    //edit category and update book number
-    fun categoryUpdate(category: Category) = viewModelScope.launch(Dispatchers.IO) {
-        category.bookNumber = 0
-        var listCategoryAndBook : List<CategoryAndBook> = bookManagerRepository.getListBooksOfCategory(category.categoryName!!)
-        for (cab in listCategoryAndBook) {
-            category.bookNumber = cab.books.size
-        }
+    fun editCategory(category: Category) = viewModelScope.launch(Dispatchers.IO) {
         bookManagerRepository.updateCategory(category)
     }
-    //delete category
-    fun categoryDelete(category: Category) = viewModelScope.launch(Dispatchers.IO) {
-        bookManagerRepository.deleteCategory(category)
+    fun deleteCategory(id: Int) = viewModelScope.launch(Dispatchers.IO) {
+        bookManagerRepository.deleteCategoryById(id)
     }
 
-    //chapter
-    fun chapterInsert(chapter: Chapter, bookName: String) = viewModelScope.launch(Dispatchers.IO) {
-        chapter.bookName = bookName
+    //Category
+    fun insertChapter(chapter: Chapter) = viewModelScope.launch(Dispatchers.IO) {
         bookManagerRepository.insertChapter(chapter)
     }
-    fun chapterUpdate(chapter: Chapter) = viewModelScope.launch(Dispatchers.IO) {
+    fun editChapter(chapter: Chapter) = viewModelScope.launch(Dispatchers.IO) {
         bookManagerRepository.updateChapter(chapter)
     }
-    fun chapterDelete(chapter: Chapter) = viewModelScope.launch(Dispatchers.IO) {
-        bookManagerRepository.deleteChapter(chapter)
-    }
-
-    fun getListChaptersByBookName(bookName: String, listAllChapter: List<Chapter>): List<Chapter> {
-        var listChapter = arrayListOf<Chapter>()
-        for (i in listAllChapter.indices) {
-            if (bookName == listAllChapter[i].bookName) {
-                listChapter.add(listAllChapter[i])
-            }
-        }
-        return listChapter
-    }
-
-    fun getNextChapter(chapterName: String, bookName: String, listAllChapter: List<Chapter>) : Chapter {
-        var listChapter = arrayListOf<Chapter>()
-        for (i in listAllChapter.indices) {
-            if (bookName == listAllChapter[i].bookName) {
-                listChapter.add(listAllChapter[i])
-            }
-        }
-        var currentChapterIndex = 0
-        for (i in listChapter.indices) {
-            if (listChapter[i].chapName == chapterName) {
-                currentChapterIndex = i
-            }
-        }
-        var nextChapterIndex = currentChapterIndex?.plus(1)
-        Log.d("next", "chap index: $nextChapterIndex ")
-        return listChapter[nextChapterIndex!!]
+    fun deleteChapter(name: String) = viewModelScope.launch(Dispatchers.IO) {
+        bookManagerRepository.deleteChapterByName(name)
     }
 }

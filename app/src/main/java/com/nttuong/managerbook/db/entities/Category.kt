@@ -7,9 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "category_table")
 data class Category(
     @PrimaryKey(autoGenerate = true) val categoryId: Int?,
-    @ColumnInfo(name = "avatar") var categoryAvatar: String? = "",
     @ColumnInfo(name = "categoryName") var categoryName: String? = "",
-    @ColumnInfo(name = "bookNumber") var bookNumber: Int? = 0
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

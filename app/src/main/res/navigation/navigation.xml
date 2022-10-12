@@ -22,12 +22,12 @@
         tools:layout="@layout/fragment_search" />
     <fragment
         android:id="@+id/bookcaseFragment"
-        android:name="com.nttuong.managerbook.fragment.BookcaseFragment"
+        android:name="com.nttuong.managerbook.fragment.bookcase.BookcaseFragment"
         android:label="fragment_bookcase"
         tools:layout="@layout/fragment_bookcase" />
     <fragment
         android:id="@+id/accountFragment"
         android:name="com.nttuong.managerbook.fragment.AccountFragment"
         android:label="fragment_account"
-        tools:layout="@layout/fragment_account" />
+        tools:layout="@layout/fragment_account_admin" />
 </navigation>

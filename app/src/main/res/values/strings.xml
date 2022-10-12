@@ -2,11 +2,12 @@
     <string name="app_name">ManagerBook</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="btn_save">Save</string>
-    <string name="btn_cancel">Cancel</string>
+    <string name="btn_save">Lưu</string>
+    <string name="btn_cancel">Hủy</string>
     <string name="btn_delete">Delete</string>
+    <string name="btn_yes">Có</string>
 
-    <string-array name="category">
+    <string-array name="status">
         <item>Hoàn Thành</item>
         <item>Chưa Hoàn Thành</item>
         <item>Tạm Ngưng</item>

@@ -8,6 +8,5 @@ import androidx.room.PrimaryKey
 data class Author(
     @PrimaryKey(autoGenerate = true) var authorId: Int?,
     @ColumnInfo(name = "avatar") var authorAvatar: String? = "",
-    @ColumnInfo(name = "authorName") var authorName: String? = "",
-    @ColumnInfo(name = "numberOfBook") var numberOfBook: Int? = 0
+    @ColumnInfo(name = "authorName") var authorName: String? = ""
 )

@@ -1,18 +1,20 @@
 package com.nttuong.managerbook.fragment.author
 
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import com.nttuong.managerbook.R
 import com.nttuong.managerbook.databinding.FragmentAddAuthorDialogBinding
 import com.nttuong.managerbook.db.entities.Author
-
+import com.nttuong.managerbook.viewmodel.BookManagerViewModel
 
 class AddAuthorDialog : DialogFragment() {
     private lateinit var binding: FragmentAddAuthorDialogBinding
     private lateinit var listener: AddAuthorDialogListener
+    private val viewModel: BookManagerViewModel by activityViewModels()
 
     interface AddAuthorDialogListener {
         fun onAddAuthorDialogPositiveClick(author: Author?)
@@ -22,7 +24,7 @@ class AddAuthorDialog : DialogFragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         try {
-            listener = parentFragment as AddAuthorDialogListener
+            listener = context as AddAuthorDialogListener
         } catch (e: ClassCastException) {
             throw  ClassCastException((context.toString() + "must implement AddAuthorDialogListener"))
         }
@@ -30,7 +32,7 @@ class AddAuthorDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity.let {
-            val builder = AlertDialog.Builder(it)
+            val builder = AlertDialog.Builder(it!!)
 
             binding = FragmentAddAuthorDialogBinding.inflate(layoutInflater)
 
@@ -40,7 +42,7 @@ class AddAuthorDialog : DialogFragment() {
                 ) { dialog, id ->
                     val avatar = binding.edtAuthorAvatar.text.toString()
                     val name = binding.edtAuthorName.text.toString()
-                    val author = Author(null, authorAvatar = avatar, authorName = name, null)
+                    val author = Author(null, authorAvatar = avatar, authorName = name)
                     listener.onAddAuthorDialogPositiveClick(author)
                 }
                 .setNegativeButton(
@@ -51,6 +53,6 @@ class AddAuthorDialog : DialogFragment() {
                 }
 
             builder.create()
-        }   ?: throw IllegalArgumentException("Activity cannot be null")
+        }
     }
 }

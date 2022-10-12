@@ -22,7 +22,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:text="Add Category"
+                android:text="Thêm Thể Loại Truyện"
                 android:textStyle="bold"
                 android:textSize="24sp"
                 android:layout_marginTop="8dp"
@@ -37,26 +37,15 @@
                 app:layout_constraintTop_toBottomOf="@id/txt_addCategory"/>
 
             <EditText
-                android:id="@+id/edt_categoryAvatar"
-                app:layout_constraintTop_toBottomOf="@id/tv_CategoryId"
-                android:layout_marginTop="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Enter Category Avatar"
-                android:textSize="18sp"/>
-
-            <EditText
                 android:id="@+id/edt_categoryName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
-                android:hint="Enter Category Name"
+                android:hint="Tên Thể Loại"
                 android:layout_marginTop="6dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edt_categoryAvatar"/>
+                app:layout_constraintTop_toBottomOf="@id/tv_CategoryId"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

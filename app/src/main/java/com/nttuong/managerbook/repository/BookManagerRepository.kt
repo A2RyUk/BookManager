@@ -17,7 +17,7 @@ class BookManagerRepository(private val bookManagerDao: BookManagerDao) {
     val getAllCategories: LiveData<List<Category>> = bookManagerDao.getAllCategories()
     val getAllChapters: LiveData<List<Chapter>> = bookManagerDao.getAllChapters()
 
-    //book repo
+    //book
     suspend fun insertBook(book : Book) {
         bookManagerDao.insertBook(book = book)
     }
@@ -26,11 +26,11 @@ class BookManagerRepository(private val bookManagerDao: BookManagerDao) {
         bookManagerDao.updateBook(book = book)
     }
 
-    suspend fun deleteBook(book : Book) {
-        bookManagerDao.deleteBook(book = book)
+    suspend fun deleteBookById(id: Int) {
+        bookManagerDao.deleteBookById(id = id)
     }
 
-    //category repo
+    //category
     suspend fun insertCategory(category: Category) {
         bookManagerDao.insertCategory(category = category)
     }
@@ -39,24 +39,24 @@ class BookManagerRepository(private val bookManagerDao: BookManagerDao) {
         bookManagerDao.updateCategory(category = category)
     }
 
-    suspend fun deleteCategory(category: Category) {
-        bookManagerDao.deleteCategory(category = category)
+    suspend fun deleteCategoryById(id: Int) {
+        bookManagerDao.deleteCategoryById(id = id)
     }
 
-    //author repo
-    suspend fun insertAuthor(author: Author){
+    //author
+    suspend fun insertAuthor(author: Author) {
         bookManagerDao.insertAuthor(author = author)
     }
 
-    suspend fun updateAuthor(author: Author){
+    suspend fun updateAuthor(author: Author) {
         bookManagerDao.updateAuthor(author = author)
     }
 
-    suspend fun deleteAuthor(author: Author){
-        bookManagerDao.deleteAuthor(author = author)
+    suspend fun deleteAuthorById(id: Int) {
+        bookManagerDao.deleteAuthorById(id = id)
     }
 
-    //chapter repo
+    //chapter
     suspend fun insertChapter(chapter: Chapter) {
         bookManagerDao.insertChapter(chapter = chapter)
     }
@@ -65,8 +65,8 @@ class BookManagerRepository(private val bookManagerDao: BookManagerDao) {
         bookManagerDao.updateChapter(chapter = chapter)
     }
 
-    suspend fun deleteChapter(chapter: Chapter) {
-        bookManagerDao.deleteChapter(chapter = chapter)
+    suspend fun deleteChapterByName(name: String) {
+        bookManagerDao.deleteChapterByName(name = name)
     }
 
     //relationship

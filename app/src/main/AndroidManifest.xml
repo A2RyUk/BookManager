@@ -14,20 +14,31 @@
         android:theme="@style/Theme.ManagerBook"
         tools:targetApi="31">
         <activity
-            android:name=".activity.ReadingBookActivity"
+            android:name=".activity.manager.ManagerCategoryActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.ListChapterActivity"
+            android:name=".activity.manager.ManagerBookActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".activity.manager.ManagerAuthorActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".activity.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".adapter.login.RegisterActivity"
-            android:exported="false" />
-        <activity
-            android:name=".adapter.login.LoginActivity"
+            android:name=".activity.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,9 +49,5 @@
         <activity
             android:name=".activity.MainActivity"
             android:exported="false" />
-        <activity
-            android:name=".activity.DetailBookActivity"
-            android:exported="false" />
     </application>
-
 </manifest>

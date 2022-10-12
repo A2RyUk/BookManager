@@ -26,7 +26,8 @@ interface BookManagerDao {
     @Query("SELECT * FROM author_table WHERE authorName = :authorName")
     fun getListBooksOfAuthor(authorName: String): List<AuthorAndBook>
 
-    //Book dao
+
+    //Book
     @Query("SELECT * FROM book_table order by bookId ASC")
     fun getAllBooks(): LiveData<List<Book>>
 
@@ -36,8 +37,9 @@ interface BookManagerDao {
     @Update
     suspend fun updateBook(book: Book)
 
-    @Delete
-    suspend fun deleteBook(book: Book)
+    @Query("DELETE FROM book_table WHERE bookId = :id")
+    suspend fun deleteBookById(id: Int)
+
 
     //Category dao
     @Query("SELECT * FROM category_table order by categoryId ASC")
@@ -49,8 +51,9 @@ interface BookManagerDao {
     @Update
     suspend fun updateCategory(category: Category)
 
-    @Delete
-    suspend fun deleteCategory(category: Category)
+    @Query("DELETE FROM category_table WHERE categoryId = :id")
+    suspend fun deleteCategoryById(id: Int)
+
 
     //Author Dao
     @Query("SELECT * FROM author_table order by authorId ASC")
@@ -62,8 +65,8 @@ interface BookManagerDao {
     @Update
     suspend fun updateAuthor(author: Author)
 
-    @Delete
-    suspend fun deleteAuthor(author: Author)
+    @Query("DELETE FROM author_table WHERE authorId = :id")
+    suspend fun deleteAuthorById(id: Int)
 
 
     //Chapter Dao
@@ -76,6 +79,6 @@ interface BookManagerDao {
     @Update
     suspend fun updateChapter(chapter: Chapter)
 
-    @Delete
-    suspend fun deleteChapter(chapter: Chapter)
+    @Query("DELETE FROM chapter_table WHERE chapName = :name")
+    suspend fun deleteChapterByName(name: String)
 }
