@@ -5,25 +5,23 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.nttuong.managerbook.databinding.BookItemSwipeBinding
+import com.nttuong.managerbook.databinding.ItemBookSearchViewBinding
 import com.nttuong.managerbook.db.entities.Book
-import com.nttuong.managerbook.db.entities.Category
 
-val bookManagerDiff = object : DiffUtil.ItemCallback<Book>() {
+val searchDiff = object : DiffUtil.ItemCallback<Book>() {
     override fun areItemsTheSame(oldItem: Book, newItem: Book): Boolean {
         return oldItem.bookId == newItem.bookId
     }
+
     override fun areContentsTheSame(oldItem: Book, newItem: Book): Boolean {
         return oldItem == newItem
     }
 }
 
-class BookManagerAdapter(
-    private val listener: OnClickItemListener
-) : ListAdapter<Book, BookManagerAdapter.ViewHolder>(bookManagerDiff) {
+class SearchBookAdapter() : ListAdapter<Book, SearchBookAdapter.ViewHolder>(searchDiff) {
     class ViewHolder(
-        private val binding: BookItemSwipeBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
+        private val binding: ItemBookSearchViewBinding
+    ): RecyclerView.ViewHolder(binding.root) {
         fun bind(book: Book) {
             binding.book = book
             binding.executePendingBindings()
@@ -32,20 +30,13 @@ class BookManagerAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            BookItemSwipeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemBookSearchViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-       getItem(position)?.let {
-           holder.bind(it)
-       }
-       holder.itemView.setOnClickListener {
-           listener.itemClick(getItem(position))
-       }
-    }
-
-    interface OnClickItemListener {
-        fun itemClick(book: Book)
+        getItem(position)?.let {
+            holder.bind(it)
+        }
     }
 }

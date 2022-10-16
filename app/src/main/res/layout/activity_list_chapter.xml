@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.ListChapterActivity">
+    tools:context=".activity.manager.ListChapterActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_chapter"
@@ -12,8 +12,8 @@
         android:layout_height="match_parent"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btn_menu"
-        android:src="@drawable/ic_menu"
+        android:id="@+id/btn_add"
+        android:src="@drawable/ic_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -22,40 +22,5 @@
         android:backgroundTint="#2196F3"
         android:layout_marginBottom="20dp"
         android:layout_marginEnd="20dp"/>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btn_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/btn_menu"
-        app:layout_constraintBottom_toTopOf="@id/btn_menu"
-        android:tint="@color/white"
-        android:visibility="invisible"
-        android:backgroundTint="#FF9800"
-        android:layout_marginBottom="20dp"/>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btn_edit"
-        android:src="@drawable/ic_edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/btn_add"
-        app:layout_constraintBottom_toTopOf="@id/btn_add"
-        android:tint="@color/white"
-        android:visibility="invisible"
-        android:backgroundTint="#FF9800"
-        android:layout_marginBottom="20dp"/>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btn_delete"
-        android:src="@drawable/ic_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/btn_edit"
-        app:layout_constraintBottom_toTopOf="@id/btn_edit"
-        android:tint="@color/white"
-        android:visibility="invisible"
-        android:backgroundTint="#FF9800"
-        android:layout_marginBottom="20dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

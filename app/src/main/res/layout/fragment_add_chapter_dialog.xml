@@ -30,7 +30,7 @@
 
             <EditText
                 android:id="@+id/edt_chapNumber"
-                android:text="Nhập số chương"
+                android:hint="Nhập số chương"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -40,7 +40,7 @@
 
             <EditText
                 android:id="@+id/edt_chapName"
-                android:text="Nhập tên chương"
+                android:hint="Nhập tên chương"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -50,7 +50,7 @@
 
             <EditText
                 android:id="@+id/edt_chapContent"
-                android:text="Nhập nội dung"
+                android:hint="Nhập nội dung"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"

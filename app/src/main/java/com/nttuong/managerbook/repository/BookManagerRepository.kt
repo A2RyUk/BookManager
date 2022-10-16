@@ -10,6 +10,7 @@ import com.nttuong.managerbook.db.entities.Chapter
 import com.nttuong.managerbook.db.relationship.AuthorAndBook
 import com.nttuong.managerbook.db.relationship.BookAndChapter
 import com.nttuong.managerbook.db.relationship.CategoryAndBook
+import kotlinx.coroutines.flow.Flow
 
 class BookManagerRepository(private val bookManagerDao: BookManagerDao) {
     val getAllBooks: LiveData<List<Book>> = bookManagerDao.getAllBooks()
@@ -80,5 +81,18 @@ class BookManagerRepository(private val bookManagerDao: BookManagerDao) {
 
     fun getListBooksOfAuthor(authorName: String) : List<AuthorAndBook> {
         return bookManagerDao.getListBooksOfAuthor(authorName)
+    }
+
+    //search function
+    fun searchBook(query: String) : Flow<List<Book>> {
+        return bookManagerDao.searchDataBase(query)
+    }
+    //filter by category
+    fun searchByCategory(categoryName: String) : Flow<List<Book>> {
+        return bookManagerDao.searchByCategory(categoryName)
+    }
+    //get all chap by book name
+    fun getAllChapterByBookName(name: String) : Flow<List<Chapter>> {
+        return bookManagerDao.getAllChaptersByName(name)
     }
 }

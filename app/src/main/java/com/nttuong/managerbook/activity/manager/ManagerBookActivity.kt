@@ -1,11 +1,13 @@
 package com.nttuong.managerbook.activity.manager
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.nttuong.managerbook.activity.DetailBookActivity
 import com.nttuong.managerbook.adapter.BookManagerAdapter
 import com.nttuong.managerbook.databinding.ActivityManagerBookBinding
 import com.nttuong.managerbook.db.entities.Book
@@ -14,7 +16,10 @@ import com.nttuong.managerbook.fragment.book.EditBookDialog
 import com.nttuong.managerbook.helper.SwipeHelper
 import com.nttuong.managerbook.viewmodel.BookManagerViewModel
 
-class ManagerBookActivity : FragmentActivity(), AddBookDialog.AddBookDialogListener, EditBookDialog.EditBookDialogListener {
+class ManagerBookActivity : FragmentActivity(),
+    AddBookDialog.AddBookDialogListener,
+    EditBookDialog.EditBookDialogListener,
+    BookManagerAdapter.OnClickItemListener {
     private lateinit var binding: ActivityManagerBookBinding
     private lateinit var managerBookAdapter: BookManagerAdapter
     private lateinit var viewModel: BookManagerViewModel
@@ -24,7 +29,7 @@ class ManagerBookActivity : FragmentActivity(), AddBookDialog.AddBookDialogListe
             binding = ActivityManagerBookBinding.inflate(layoutInflater)
             setContentView(binding.root)
 
-            managerBookAdapter = BookManagerAdapter()
+            managerBookAdapter = BookManagerAdapter(this)
             binding.rcListBook.adapter = managerBookAdapter
             binding.rcListBook.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
@@ -101,5 +106,17 @@ class ManagerBookActivity : FragmentActivity(), AddBookDialog.AddBookDialogListe
 
     override fun onEditBookDialogNegativeClick(book: Book?) {
         Toast.makeText(this, "You click cancel", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun itemClick(book: Book) {
+        val detailBookIntent = Intent(this, DetailBookActivity::class.java)
+        detailBookIntent.putExtra("itemClickBookID", book.bookId.toString())
+        detailBookIntent.putExtra("itemClickAvatar", book.avatar)
+        detailBookIntent.putExtra("itemClickName", book.name)
+        detailBookIntent.putExtra("itemClickAuthor", book.author)
+        detailBookIntent.putExtra("itemClickCategory", book.category)
+        detailBookIntent.putExtra("itemClickStatus", book.status)
+        detailBookIntent.putExtra("itemClickContent", book.content)
+        startActivity(detailBookIntent)
     }
 }

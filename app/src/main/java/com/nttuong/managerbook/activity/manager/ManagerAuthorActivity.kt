@@ -3,6 +3,7 @@ package com.nttuong.managerbook.activity.manager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,7 +15,7 @@ import com.nttuong.managerbook.fragment.author.EditAuthorDialog
 import com.nttuong.managerbook.helper.SwipeHelper
 import com.nttuong.managerbook.viewmodel.BookManagerViewModel
 
-class ManagerAuthorActivity : AppCompatActivity(),
+class ManagerAuthorActivity : FragmentActivity(),
     AddAuthorDialog.AddAuthorDialogListener,
     EditAuthorDialog.EditAuthorDialogListener {
 

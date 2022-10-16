@@ -3,9 +3,8 @@ package com.nttuong.managerbook.viewmodel
 import android.app.Application
 import android.content.Intent
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import androidx.paging.PagedList
 import com.nttuong.managerbook.db.BookManagerDataBase
 import com.nttuong.managerbook.db.entities.Author
 import com.nttuong.managerbook.db.entities.Book
@@ -17,13 +16,22 @@ import com.nttuong.managerbook.repository.BookManagerRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+enum class FilterType {
+    NONE, FAVORITES, SEARCH_RESULTS, CATEGORY
+}
+
 class BookManagerViewModel(application: Application): AndroidViewModel(application) {
     var getAllBookList: LiveData<List<Book>>
     var getAllAuthorList: LiveData<List<Author>>
     var getAllCategoryList: LiveData<List<Category>>
     var getAllChapters: LiveData<List<Chapter>>
+    private var searchStr = ""
+    private var searchCategory = ""
+    private var bookName = MutableLiveData(String)
+    var bookFilter = MutableLiveData(FilterType.NONE)
 
     var bookManagerRepository: BookManagerRepository
+
 
     init {
         val bookManagerDao = BookManagerDataBase.getDatabase(application).getBookManagerDao()
@@ -32,6 +40,28 @@ class BookManagerViewModel(application: Application): AndroidViewModel(applicati
         getAllAuthorList = bookManagerRepository.getAllAuthors
         getAllCategoryList = bookManagerRepository.getAllCategories
         getAllChapters = bookManagerRepository.getAllChapters
+    }
+
+    private val allBooks = Transformations.switchMap(bookFilter) {
+        when (bookFilter.value) {
+            FilterType.NONE -> {
+                getAllBookList
+            }
+            FilterType.CATEGORY -> {
+                bookManagerRepository.searchByCategory(searchCategory).asLiveData()
+            }
+            FilterType.SEARCH_RESULTS -> {
+                bookManagerRepository.searchBook(searchStr).asLiveData()
+            }
+            else -> throw IllegalArgumentException("Unknown Filter")
+        }
+    }
+
+    val books: LiveData<List<Book>>
+        get() = allBooks
+
+    fun getAllChaptersByName(name: String) : LiveData<List<Chapter>> {
+        return  bookManagerRepository.getAllChapterByBookName(name).asLiveData()
     }
 
     //get all category to arrayString
@@ -87,8 +117,9 @@ class BookManagerViewModel(application: Application): AndroidViewModel(applicati
         bookManagerRepository.deleteCategoryById(id)
     }
 
-    //Category
-    fun insertChapter(chapter: Chapter) = viewModelScope.launch(Dispatchers.IO) {
+    //Chapter
+    fun chapterInsert(chapter: Chapter, bookName: String) = viewModelScope.launch(Dispatchers.IO) {
+        chapter.bookName = bookName
         bookManagerRepository.insertChapter(chapter)
     }
     fun editChapter(chapter: Chapter) = viewModelScope.launch(Dispatchers.IO) {
@@ -96,5 +127,36 @@ class BookManagerViewModel(application: Application): AndroidViewModel(applicati
     }
     fun deleteChapter(name: String) = viewModelScope.launch(Dispatchers.IO) {
         bookManagerRepository.deleteChapterByName(name)
+    }
+
+    fun searchWithText(query : String?) {
+        query?.let {
+            searchStr = it
+        }
+        bookFilter.value = FilterType.SEARCH_RESULTS
+    }
+    fun searchWithCategory(category: String?){
+        category?.let {
+            searchCategory = it
+        }
+        bookFilter.value = FilterType.CATEGORY
+    }
+
+    fun getNextChapter(chapterName: String, bookName: String, listAllChapter: List<Chapter>) : Chapter {
+        var listChapter = arrayListOf<Chapter>()
+        for (i in listAllChapter.indices) {
+            if (bookName == listAllChapter[i].bookName) {
+                listChapter.add(listAllChapter[i])
+            }
+        }
+        var currentChapterIndex = 0
+        for (i in listChapter.indices) {
+            if (listChapter[i].chapName == chapterName) {
+                currentChapterIndex = i
+            }
+        }
+        var nextChapterIndex = currentChapterIndex?.plus(1)
+        Log.d("next", "chap index: $nextChapterIndex ")
+        return listChapter[nextChapterIndex!!]
     }
 }

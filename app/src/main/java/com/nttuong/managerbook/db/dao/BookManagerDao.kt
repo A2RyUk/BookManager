@@ -10,6 +10,7 @@ import com.nttuong.managerbook.db.entities.Chapter
 import com.nttuong.managerbook.db.relationship.AuthorAndBook
 import com.nttuong.managerbook.db.relationship.BookAndChapter
 import com.nttuong.managerbook.db.relationship.CategoryAndBook
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface BookManagerDao {
@@ -81,4 +82,15 @@ interface BookManagerDao {
 
     @Query("DELETE FROM chapter_table WHERE chapName = :name")
     suspend fun deleteChapterByName(name: String)
+
+    //get all chapter by book
+    @Query("SELECT * FROM chapter_table WHERE bookName = :name")
+    fun getAllChaptersByName(name: String) : Flow<List<Chapter>>
+
+    //search
+    @Query("SELECT * FROM book_table WHERE bookName LIKE :searchQuery OR authorName LIKE :searchQuery")
+    fun searchDataBase(searchQuery: String): Flow<List<Book>>
+    //filter by category
+    @Query("SELECT * FROM book_table WHERE categoryName LIKE :categoryName")
+    fun searchByCategory(categoryName: String): Flow<List<Book>>
 }

@@ -33,6 +33,7 @@ class LibraryFragment : Fragment() {
                 adapter.submitList(viewModel.getCompleteBook(it))
             }
         }
+
         return binding.root
     }
 }

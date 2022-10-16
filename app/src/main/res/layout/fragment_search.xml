@@ -15,47 +15,18 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="?attr/actionBarSize"
+                android:background="@android:color/holo_blue_light"/>
 
-                <TextView
-                    android:layout_marginTop="10dp"
-                    android:text="Tìm Truyện"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <ImageButton
-                    android:id="@+id/btn_filter"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="20dp"
-                    android:src="@drawable/ic_filter"
-                    android:background="@android:color/transparent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/searchView"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rc_search"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:queryHint="Nhập tên truyện hoặc tác giả"
-                app:iconifiedByDefault="false"
-                android:background="@drawable/search_view_background"
-                android:layout_marginTop="15dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                app:queryBackground="@android:color/transparent">
+                android:layout_height="match_parent">
 
-            </androidx.appcompat.widget.SearchView>
+            </androidx.recyclerview.widget.RecyclerView>
         </LinearLayout>
     </ScrollView>
 </FrameLayout>
