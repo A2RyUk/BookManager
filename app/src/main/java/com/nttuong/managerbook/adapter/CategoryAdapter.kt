@@ -19,7 +19,9 @@ val categoryDiff = object : DiffUtil.ItemCallback<Category>() {
     }
 }
 
-class CategoryAdapter() : ListAdapter<Category, CategoryAdapter.ViewHolder>(categoryDiff){
+class CategoryAdapter(
+    private val listener: CategoryItemClickListener
+) : ListAdapter<Category, CategoryAdapter.ViewHolder>(categoryDiff){
     class ViewHolder(
         private val binding: CategoryItemBinding
     ): RecyclerView.ViewHolder(binding.root) {
@@ -27,6 +29,10 @@ class CategoryAdapter() : ListAdapter<Category, CategoryAdapter.ViewHolder>(cate
             binding.category = category
             binding.executePendingBindings()
         }
+    }
+
+    interface CategoryItemClickListener {
+        fun onCategoryClick(category: Category)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -38,6 +44,9 @@ class CategoryAdapter() : ListAdapter<Category, CategoryAdapter.ViewHolder>(cate
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         getItem(position)?.let {
             holder.bind(it)
+        }
+        holder.itemView.setOnClickListener {
+            listener.onCategoryClick(getItem(position))
         }
     }
 }

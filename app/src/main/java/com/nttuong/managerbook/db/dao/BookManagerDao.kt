@@ -86,6 +86,9 @@ interface BookManagerDao {
     //get all chapter by book
     @Query("SELECT * FROM chapter_table WHERE bookName = :name")
     fun getAllChaptersByName(name: String) : Flow<List<Chapter>>
+    //get all book by category
+    @Query("SELECT * FROM book_table WHERE categoryName = :category")
+    fun getAllBookByCategory(category: String) : Flow<List<Book>>
 
     //search
     @Query("SELECT * FROM book_table WHERE bookName LIKE :searchQuery OR authorName LIKE :searchQuery")

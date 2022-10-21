@@ -95,4 +95,7 @@ class BookManagerRepository(private val bookManagerDao: BookManagerDao) {
     fun getAllChapterByBookName(name: String) : Flow<List<Chapter>> {
         return bookManagerDao.getAllChaptersByName(name)
     }
+    fun getAllBookByCategory(category: String) : Flow<List<Book>> {
+        return bookManagerDao.getAllBookByCategory(category)
+    }
 }

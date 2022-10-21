@@ -64,6 +64,10 @@ class BookManagerViewModel(application: Application): AndroidViewModel(applicati
         return  bookManagerRepository.getAllChapterByBookName(name).asLiveData()
     }
 
+    fun getAllBookByCategory(category: String) : LiveData<List<Book>> {
+        return  bookManagerRepository.getAllBookByCategory(category).asLiveData()
+    }
+
     //get all category to arrayString
     fun getAllCategoryToString(listCategory: List<Category>): List<String> {
         var listStringCategory = arrayListOf<String>()

@@ -1,6 +1,7 @@
 package com.nttuong.managerbook.fragment.category
 
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,14 +10,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.nttuong.managerbook.activity.ListBookByCategory
 import com.nttuong.managerbook.adapter.CategoryAdapter
 import com.nttuong.managerbook.databinding.FragmentCategoryBinding
+import com.nttuong.managerbook.db.entities.Category
 import com.nttuong.managerbook.viewmodel.BookManagerViewModel
 
-class CategoryFragment : Fragment() {
+class CategoryFragment : Fragment(), CategoryAdapter.CategoryItemClickListener {
 
     private lateinit var binding: FragmentCategoryBinding
-    private val categoryAdapter = CategoryAdapter()
+    private val categoryAdapter = CategoryAdapter(this)
     private lateinit var viewModel: BookManagerViewModel
 
     override fun onCreateView(
@@ -38,5 +41,11 @@ class CategoryFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    override fun onCategoryClick(category: Category) {
+        val categoryIntent = Intent(requireContext(), ListBookByCategory::class.java)
+        categoryIntent.putExtra("categoryNameForListBook", category.categoryName)
+        startActivity(categoryIntent)
     }
 }
