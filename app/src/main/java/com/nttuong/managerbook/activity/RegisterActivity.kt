@@ -1,12 +1,15 @@
 package com.nttuong.managerbook.activity
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FirebaseFirestore
 import com.nttuong.managerbook.databinding.ActivityRegisterBinding
+import java.util.Objects
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -17,6 +20,9 @@ class RegisterActivity : AppCompatActivity() {
 
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val fAuth = FirebaseAuth.getInstance()
+        val fStore = FirebaseFirestore.getInstance()
 
         binding.btnSignup.setOnClickListener {
             when {
@@ -39,16 +45,28 @@ class RegisterActivity : AppCompatActivity() {
                 else -> {
                     val email = binding.edtUser.text.toString().trim {it <= ' ' }
                     val pass = binding.edtPass.text.toString().trim {it <= ' ' }
+                    val name = binding.edtName.text.toString().trim {it <= ' ' }
 
-                    FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, pass)
+                    fAuth.createUserWithEmailAndPassword(email, pass)
                         .addOnCompleteListener(this){ task ->
                             if (task.isSuccessful) {
+                                val user = fAuth.currentUser
                                 val firebaseUser: FirebaseUser = task.result!!.user!!
                                 Toast.makeText(
                                     this,
                                     "Đăng Ký thành công",
                                     Toast.LENGTH_SHORT
                                 ).show()
+                                val df = fStore.collection("User").document(user!!.uid)
+                                val userInfo = HashMap<String, Any>()
+                                userInfo["FullName"] = name
+                                userInfo["Email"] = email
+                                userInfo["PassWord"] = pass
+                                userInfo["IsAdmin"] = "isUser"
+                                df.set(userInfo)
+                                val intentFinish = Intent(this, LoginActivity::class.java)
+                                startActivity(intentFinish)
+                                finish()
                             } else {
                                 Toast.makeText(
                                     this,
@@ -56,7 +74,6 @@ class RegisterActivity : AppCompatActivity() {
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
-
                         }
                 }
             }

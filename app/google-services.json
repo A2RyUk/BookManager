@@ -1,41 +1,33 @@
 {
   "project_info": {
-    "project_number": "786480407839",
-    "project_id": "bookmanagerminiproject",
-    "storage_bucket": "bookmanagerminiproject.appspot.com"
+    "project_number": "167726081008",
+    "project_id": "nguyen-ngoc-tuong-manager-book",
+    "storage_bucket": "nguyen-ngoc-tuong-manager-book.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:786480407839:android:863c18423a0ae55de5fc2a",
+        "mobilesdk_app_id": "1:167726081008:android:6fcf31a3b15053976cf335",
         "android_client_info": {
           "package_name": "com.nttuong.managerbook"
         }
       },
       "oauth_client": [
         {
-          "client_id": "786480407839-v6eh4gghfg8ishbu5us9drde4bcha2kv.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.nttuong.managerbook",
-            "certificate_hash": "5a62acafa90a7382a4bca8b942c5a2db54f2d807"
-          }
-        },
-        {
-          "client_id": "786480407839-7p0v93f5u3diaoprl12cjod5mr78p85r.apps.googleusercontent.com",
+          "client_id": "167726081008-9do2b227ak6lhtaqmogniv3qn30qkqsl.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCpzI1IIp7Zow0RRn7hKIaWOR0WgaFKh5M"
+          "current_key": "AIzaSyDWbJoC5ARnLlxQn7l0Gdhp9lBjxaHTj2k"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "786480407839-7p0v93f5u3diaoprl12cjod5mr78p85r.apps.googleusercontent.com",
+              "client_id": "167726081008-9do2b227ak6lhtaqmogniv3qn30qkqsl.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

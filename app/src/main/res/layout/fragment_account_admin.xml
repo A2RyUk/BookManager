@@ -31,6 +31,7 @@
             </TextView>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraint_all"
                 android:background="#E1E1E1"
                 android:layout_marginTop="15dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -77,7 +78,7 @@
                         android:textSize="16sp"
                         android:textColor="@color/black"
                         android:layout_marginTop="6dp"
-                        android:id="@+id/txt_accountMail"
+                        android:id="@+id/txt_accountLevel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintStart_toStartOf="@id/txt_accountName"
@@ -281,7 +282,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginStart="10dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/constraint_changeAva"
+                    app:layout_constraintTop_toBottomOf="@id/constraint_aboutUS"
                     android:text="QUẢN LÝ THƯ VIỆN"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -461,7 +462,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginStart="10dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/constraint_managerCategory"
+                    app:layout_constraintTop_toBottomOf="@id/constraint_changeAva"
                     android:text="THÔNG TIN"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -635,6 +636,30 @@
                         android:background="#686868"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <Button
+                    android:id="@+id/btn_logout"
+                    android:layout_marginStart="33dp"
+                    android:layout_marginEnd="33dp"
+                    android:text="Đăng Xuất"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textAllCaps="false"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:background="@drawable/custom_btn_logout"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/constraint_managerCategory"/>
+
+                <View
+                    android:background="#E1E1E1"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    app:layout_constraintTop_toBottomOf="@id/btn_logout"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.nttuong.managerbook.db.convert.Converters
 import com.nttuong.managerbook.db.dao.BookManagerDao
 import com.nttuong.managerbook.db.entities.Author
 import com.nttuong.managerbook.db.entities.Book
@@ -18,6 +20,7 @@ import com.nttuong.managerbook.db.entities.Chapter
         Chapter::class
     ], version = 1, exportSchema = false
 )
+@TypeConverters(Converters::class)
 abstract class BookManagerDataBase : RoomDatabase() {
     abstract fun getBookManagerDao(): BookManagerDao
 

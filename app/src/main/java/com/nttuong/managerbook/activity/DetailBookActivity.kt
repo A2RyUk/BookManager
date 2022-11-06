@@ -3,14 +3,18 @@ package com.nttuong.managerbook.activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.nttuong.managerbook.R
 import com.nttuong.managerbook.activity.manager.ListChapterActivity
 import com.nttuong.managerbook.databinding.AcitivityDetailBookBinding
+import com.nttuong.managerbook.db.entities.Chapter
+import com.nttuong.managerbook.viewmodel.BookManagerViewModel
 
 class DetailBookActivity: AppCompatActivity() {
 
     private lateinit var binding: AcitivityDetailBookBinding
+    private lateinit var viewModel: BookManagerViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,12 +22,27 @@ class DetailBookActivity: AppCompatActivity() {
         setContentView(binding.root)
 
         updateUI()
+        viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application))
+            .get(BookManagerViewModel::class.java)
+
         var bookName = intent.getStringExtra("itemClickName")
         binding.btnListChap.setOnClickListener {
             val intentListChapter = Intent(this, ListChapterActivity::class.java)
             intentListChapter.putExtra("bookNameForChapter", bookName)
             startActivity(intentListChapter)
         }
+        if (bookName != null) {
+            viewModel.getAllChaptersByName(bookName).observe(this) { list ->
+                list?.let {
+                    updateNewChapter(it)
+                }
+            }
+        }
+    }
+
+    private fun updateNewChapter(listChapter: List<Chapter>) {
+        binding.tvChapNumber.text = listChapter[listChapter.size - 1].chapNumber.toString()
+        binding.tvChapName.text = listChapter[listChapter.size - 1].chapName.toString()
     }
 
     private fun updateUI() {

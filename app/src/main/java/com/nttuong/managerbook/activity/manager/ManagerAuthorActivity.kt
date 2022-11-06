@@ -38,6 +38,9 @@ class ManagerAuthorActivity : FragmentActivity(),
             managerAuthorAdapter.submitList(it)
         }
 
+        binding.btnBack.setOnClickListener {
+            onBackPressed()
+        }
         binding.btnAdd.setOnClickListener {
             val dialog = AddAuthorDialog()
             dialog.show(supportFragmentManager, "addAuthorDialog")
@@ -107,4 +110,5 @@ class ManagerAuthorActivity : FragmentActivity(),
     override fun onEditAuthorDialogNegativeClick(author: Author?) {
         Toast.makeText(this, "You click cancel", Toast.LENGTH_SHORT).show()
     }
+
 }

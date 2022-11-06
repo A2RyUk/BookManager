@@ -3,6 +3,10 @@ package com.nttuong.managerbook.db.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import com.google.type.DateTime
+import com.nttuong.managerbook.db.convert.Converters
+import java.util.Date
 
 @Entity(tableName = "chapter_table")
 data class Chapter(

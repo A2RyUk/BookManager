@@ -3,7 +3,6 @@ package com.nttuong.managerbook.adapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.nttuong.managerbook.activity.MainActivity
 import com.nttuong.managerbook.fragment.bookcase.FavoriteBookFragment
 import com.nttuong.managerbook.fragment.bookcase.ReadRecentlyFragment
 import com.nttuong.managerbook.fragment.bookcase.WasDownloadFragment

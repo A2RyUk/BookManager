@@ -2,10 +2,12 @@ package com.nttuong.managerbook.fragment.book
 
 import android.app.Dialog
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
@@ -13,6 +15,9 @@ import com.nttuong.managerbook.R
 import com.nttuong.managerbook.databinding.FragmentAddBookDialogBinding
 import com.nttuong.managerbook.db.entities.Book
 import com.nttuong.managerbook.viewmodel.BookManagerViewModel
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.util.*
 
 class AddBookDialog : DialogFragment() {
     private lateinit var binding: FragmentAddBookDialogBinding
@@ -33,6 +38,7 @@ class AddBookDialog : DialogFragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity.let {
             val builder = AlertDialog.Builder(it!!)
@@ -92,7 +98,10 @@ class AddBookDialog : DialogFragment() {
                     val category = categoryChoose
                     val statusChoice = statusChoose
                     val content = binding.edtBookContent.text.toString()
-                    val book = Book(null, avatar = avatar, name = name, author = author, category = category, status = statusChoice, content = content)
+                    val datetime = LocalDateTime.now()
+                    val postTime = Date.from(datetime.atZone(ZoneId.systemDefault()).toInstant())
+                    val updateTime = Date.from(datetime.atZone(ZoneId.systemDefault()).toInstant())
+                    val book = Book(null, avatar = avatar, name = name, author = author, category = category, status = statusChoice, content = content, postTime = postTime, updateTime = updateTime)
                     listener.onAddBookDialogPositiveClick(book)
                 }
                 .setNegativeButton(

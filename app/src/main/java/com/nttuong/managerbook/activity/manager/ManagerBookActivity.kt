@@ -3,6 +3,7 @@ package com.nttuong.managerbook.activity.manager
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -16,7 +17,7 @@ import com.nttuong.managerbook.fragment.book.EditBookDialog
 import com.nttuong.managerbook.helper.SwipeHelper
 import com.nttuong.managerbook.viewmodel.BookManagerViewModel
 
-class ManagerBookActivity : FragmentActivity(),
+class ManagerBookActivity : AppCompatActivity(),
     AddBookDialog.AddBookDialogListener,
     EditBookDialog.EditBookDialogListener,
     BookManagerAdapter.OnClickItemListener {
@@ -37,6 +38,9 @@ class ManagerBookActivity : FragmentActivity(),
                 .get(BookManagerViewModel::class.java)
             viewModel.getAllBookList.observe(this) {
                 managerBookAdapter.submitList(it)
+            }
+            binding.btnBack.setOnClickListener {
+                onBackPressed()
             }
             binding.btnAdd.setOnClickListener {
                 val dialog = AddBookDialog()
@@ -119,4 +123,5 @@ class ManagerBookActivity : FragmentActivity(),
         detailBookIntent.putExtra("itemClickContent", book.content)
         startActivity(detailBookIntent)
     }
+
 }

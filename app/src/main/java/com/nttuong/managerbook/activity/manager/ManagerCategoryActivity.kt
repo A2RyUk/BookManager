@@ -36,7 +36,9 @@ class ManagerCategoryActivity : FragmentActivity(), AddCategoryDialog.AddCategor
         viewModel.getAllCategoryList.observe(this) {
             categoryAdapter.submitList(it)
         }
-
+        binding.btnBack.setOnClickListener {
+            onBackPressed()
+        }
         binding.btnAdd.setOnClickListener {
             val dialog = AddCategoryDialog()
             dialog.show(supportFragmentManager, "addCategoryDialog")
@@ -79,4 +81,5 @@ class ManagerCategoryActivity : FragmentActivity(), AddCategoryDialog.AddCategor
     override fun onAddCategoryDialogNegativeClick(category: Category?) {
         Toast.makeText(this, "You click cancel", Toast.LENGTH_SHORT).show()
     }
+
 }

@@ -3,6 +3,7 @@ package com.nttuong.managerbook.db.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.*
 
 @Entity (tableName = "book_table")
 data class Book(
@@ -13,6 +14,8 @@ data class Book(
     @ColumnInfo(name = "categoryName") var category: String?,
     @ColumnInfo(name = "status") var status: String?,
     @ColumnInfo(name = "content") var content: String?,
+    @ColumnInfo(name = "post") var postTime: Date?,
+    @ColumnInfo(name = "update") var updateTime: Date?
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

@@ -2,11 +2,13 @@ package com.nttuong.managerbook.fragment.book
 
 import android.app.Dialog
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
@@ -14,6 +16,9 @@ import com.nttuong.managerbook.R
 import com.nttuong.managerbook.databinding.FragmentEditBookDialogBinding
 import com.nttuong.managerbook.db.entities.Book
 import com.nttuong.managerbook.viewmodel.BookManagerViewModel
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.util.*
 
 class EditBookDialog(
     private var oldBook: Book
@@ -36,6 +41,7 @@ class EditBookDialog(
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity.let {
             val builder = AlertDialog.Builder(it!!)
@@ -110,7 +116,9 @@ class EditBookDialog(
                     val category = categoryChoose
                     val statusChoice = statusChoose
                     val content = binding.edtBookContent.text.toString()
-                    val book = Book(id, avatar = avatar, name = name, author = author, category = category, status = statusChoice, content = content)
+                    val datetime = LocalDateTime.now()
+                    val updateTime = Date.from(datetime.atZone(ZoneId.systemDefault()).toInstant())
+                    val book = Book(id, avatar = avatar, name = name, author = author, category = category, status = statusChoice, content = content, postTime = oldBook.postTime, updateTime = updateTime)
                     listener.onEditBookDialogPositiveClick(book)
                 }
                 .setNegativeButton(

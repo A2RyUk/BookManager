@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.nttuong.managerbook.databinding.BookItemSwipeBinding
 import com.nttuong.managerbook.db.entities.Book
-import com.nttuong.managerbook.db.entities.Category
 
 val bookManagerDiff = object : DiffUtil.ItemCallback<Book>() {
     override fun areItemsTheSame(oldItem: Book, newItem: Book): Boolean {

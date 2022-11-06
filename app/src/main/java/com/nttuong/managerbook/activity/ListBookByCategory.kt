@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.nttuong.managerbook.R
 import com.nttuong.managerbook.adapter.BookManagerAdapter
 import com.nttuong.managerbook.databinding.ActivityListBookByCategoryBinding
 import com.nttuong.managerbook.db.entities.Book

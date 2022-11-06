@@ -20,6 +20,10 @@ enum class FilterType {
     NONE, FAVORITES, SEARCH_RESULTS, CATEGORY
 }
 
+enum class AccountLevel {
+    NONE, ADMIN, USER
+}
+
 class BookManagerViewModel(application: Application): AndroidViewModel(application) {
     var getAllBookList: LiveData<List<Book>>
     var getAllAuthorList: LiveData<List<Author>>
@@ -29,6 +33,7 @@ class BookManagerViewModel(application: Application): AndroidViewModel(applicati
     private var searchCategory = ""
     private var bookName = MutableLiveData(String)
     var bookFilter = MutableLiveData(FilterType.NONE)
+    //account level
 
     var bookManagerRepository: BookManagerRepository
 
@@ -61,7 +66,7 @@ class BookManagerViewModel(application: Application): AndroidViewModel(applicati
         get() = allBooks
 
     fun getAllChaptersByName(name: String) : LiveData<List<Chapter>> {
-        return  bookManagerRepository.getAllChapterByBookName(name).asLiveData()
+        return bookManagerRepository.getAllChapterByBookName(name).asLiveData()
     }
 
     fun getAllBookByCategory(category: String) : LiveData<List<Book>> {
@@ -146,21 +151,26 @@ class BookManagerViewModel(application: Application): AndroidViewModel(applicati
         bookFilter.value = FilterType.CATEGORY
     }
 
-    fun getNextChapter(chapterName: String, bookName: String, listAllChapter: List<Chapter>) : Chapter {
-        var listChapter = arrayListOf<Chapter>()
-        for (i in listAllChapter.indices) {
-            if (bookName == listAllChapter[i].bookName) {
-                listChapter.add(listAllChapter[i])
-            }
-        }
+    fun getNextChapter(chapterName: String, listChapterOfBook: List<Chapter>) : Chapter {
         var currentChapterIndex = 0
-        for (i in listChapter.indices) {
-            if (listChapter[i].chapName == chapterName) {
+        for (i in listChapterOfBook.indices) {
+            if (listChapterOfBook[i].chapName == chapterName) {
                 currentChapterIndex = i
             }
         }
         var nextChapterIndex = currentChapterIndex?.plus(1)
         Log.d("next", "chap index: $nextChapterIndex ")
-        return listChapter[nextChapterIndex!!]
+        return listChapterOfBook[nextChapterIndex!!]
+    }
+    fun getPrevChapter(chapterName: String, listChapterOfBook: List<Chapter>) : Chapter {
+        var currentChapterIndex = 0
+        for (i in listChapterOfBook.indices) {
+            if (listChapterOfBook[i].chapName == chapterName) {
+                currentChapterIndex = i
+            }
+        }
+        var nextChapterIndex = currentChapterIndex?.minus(1)
+        Log.d("next", "chap index: $nextChapterIndex ")
+        return listChapterOfBook[nextChapterIndex!!]
     }
 }
