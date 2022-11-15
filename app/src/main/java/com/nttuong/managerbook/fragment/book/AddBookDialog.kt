@@ -15,6 +15,7 @@ import com.nttuong.managerbook.R
 import com.nttuong.managerbook.databinding.FragmentAddBookDialogBinding
 import com.nttuong.managerbook.db.entities.Book
 import com.nttuong.managerbook.viewmodel.BookManagerViewModel
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.*
@@ -98,9 +99,8 @@ class AddBookDialog : DialogFragment() {
                     val category = categoryChoose
                     val statusChoice = statusChoose
                     val content = binding.edtBookContent.text.toString()
-                    val datetime = LocalDateTime.now()
-                    val postTime = Date.from(datetime.atZone(ZoneId.systemDefault()).toInstant())
-                    val updateTime = Date.from(datetime.atZone(ZoneId.systemDefault()).toInstant())
+                    val postTime = LocalDateTime.now()
+                    val updateTime = LocalDateTime.now()
                     val book = Book(null, avatar = avatar, name = name, author = author, category = category, status = statusChoice, content = content, postTime = postTime, updateTime = updateTime)
                     listener.onAddBookDialogPositiveClick(book)
                 }

@@ -42,8 +42,6 @@ class ReadingBookActivity: AppCompatActivity() {
             onBackPressed()
         }
         binding.bottomMenu.btnNext.setOnClickListener {
-            Log.d("chap name", chapName)
-            Log.d("book name", bookName)
             viewModel.getAllChaptersByName(bookName).observe(this) { list ->
                 list?.let {
                     updateUI(viewModel.getNextChapter(chapName, it))
@@ -68,15 +66,20 @@ class ReadingBookActivity: AppCompatActivity() {
         bookName = chapter.bookName.toString()
         viewModel.getAllChaptersByName(bookName).observe(this) { list ->
             list?.let {
-                if (chapName == it[it.size - 1].chapName) {
+                if (it.size == 1) {
                     binding.bottomMenu.btnNext.visibility = View.GONE
-                    binding.bottomMenu.btnPrev.visibility = View.VISIBLE
-                } else if (chapName == it[0].chapName) {
                     binding.bottomMenu.btnPrev.visibility = View.GONE
-                    binding.bottomMenu.btnNext.visibility = View.VISIBLE
                 } else {
-                    binding.bottomMenu.btnPrev.visibility = View.VISIBLE
-                    binding.bottomMenu.btnNext.visibility = View.VISIBLE
+                    if (chapName == it[it.size - 1].chapName) {
+                        binding.bottomMenu.btnNext.visibility = View.GONE
+                        binding.bottomMenu.btnPrev.visibility = View.VISIBLE
+                    } else if (chapName == it[0].chapName) {
+                        binding.bottomMenu.btnPrev.visibility = View.GONE
+                        binding.bottomMenu.btnNext.visibility = View.VISIBLE
+                    } else {
+                        binding.bottomMenu.btnPrev.visibility = View.VISIBLE
+                        binding.bottomMenu.btnNext.visibility = View.VISIBLE
+                    }
                 }
             }
         }

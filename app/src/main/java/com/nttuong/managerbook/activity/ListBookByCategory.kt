@@ -3,6 +3,7 @@ package com.nttuong.managerbook.activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nttuong.managerbook.adapter.BookManagerAdapter
@@ -21,6 +22,10 @@ class ListBookByCategory : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         binding = ActivityListBookByCategoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setSupportActionBar(binding.toolbar)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setDisplayShowTitleEnabled(false)
 
         binding.rcListBookByCategory.adapter = adapter
         binding.rcListBookByCategory.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -49,5 +54,15 @@ class ListBookByCategory : AppCompatActivity(),
         detailBookByCategoryIntent.putExtra("itemClickStatus", book.status)
         detailBookByCategoryIntent.putExtra("itemClickContent", book.content)
         startActivity(detailBookByCategoryIntent)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

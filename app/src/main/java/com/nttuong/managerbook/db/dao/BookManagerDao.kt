@@ -31,6 +31,12 @@ interface BookManagerDao {
     //Book
     @Query("SELECT * FROM book_table order by bookId ASC")
     fun getAllBooks(): LiveData<List<Book>>
+    //get list book order by update date
+    @Query("SELECT * FROM book_table ORDER BY `update` DESC")
+    fun getAllBookOrderByUpdateDate(): LiveData<List<Book>>
+    //get list book order by date
+    @Query("SELECT * FROM book_table ORDER BY post DESC")
+    fun getAllBookOrderByPostDate(): LiveData<List<Book>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertBook(book: Book)
@@ -96,4 +102,8 @@ interface BookManagerDao {
     //filter by category
     @Query("SELECT * FROM book_table WHERE categoryName LIKE :categoryName")
     fun searchByCategory(categoryName: String): Flow<List<Book>>
+    //get book by name
+    @Query("SELECT * FROM book_table WHERE bookName LIKE :bookName")
+    suspend fun getBookByName(bookName: String) : Book
+
 }

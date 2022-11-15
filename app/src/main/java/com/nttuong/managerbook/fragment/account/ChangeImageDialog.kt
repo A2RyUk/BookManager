@@ -25,7 +25,7 @@ class ChangeImageDialog : DialogFragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         try {
-            listener = context as ChangeImageDialogListener
+            listener = parentFragment as ChangeImageDialogListener
         } catch (e: ClassCastException) {
             throw  ClassCastException((context.toString() + "must implement ChangeImageDialogListener"))
         }

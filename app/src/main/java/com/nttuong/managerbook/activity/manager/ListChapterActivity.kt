@@ -1,11 +1,20 @@
 package com.nttuong.managerbook.activity.manager
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import com.nttuong.managerbook.activity.ReadingBookActivity
 import com.nttuong.managerbook.adapter.ChapterItemClickListener
 import com.nttuong.managerbook.adapter.ListChapterAdapter
@@ -14,17 +23,30 @@ import com.nttuong.managerbook.db.entities.Chapter
 import com.nttuong.managerbook.fragment.chapter.AddChapterDialog
 import com.nttuong.managerbook.viewmodel.BookManagerViewModel
 
-class ListChapterActivity : FragmentActivity(),
+class ListChapterActivity : AppCompatActivity(),
     AddChapterDialog.AddChapterDialogListener,
     ChapterItemClickListener {
     private lateinit var binding: ActivityListChapterBinding
     private lateinit var viewModel: BookManagerViewModel
     private val chapterAdapter = ListChapterAdapter(this)
+    private val fAuth = FirebaseAuth.getInstance()
+    private val fStore = FirebaseFirestore.getInstance()
+    private val userUid = fAuth.currentUser!!.uid
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityListChapterBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        if (userUid != null) {
+            checkUserAccessLevel(userUid)
+        } else {
+            binding.btnAdd.visibility = View.GONE
+        }
+
+        setSupportActionBar(binding.toolbar)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setDisplayShowTitleEnabled(false)
 
         binding.btnAdd.setOnClickListener {
             val dialog = AddChapterDialog()
@@ -47,10 +69,22 @@ class ListChapterActivity : FragmentActivity(),
         }
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onAddChapterPositiveClick(chapter: Chapter?) {
        if (chapter != null) {
            var bookName = intent.getStringExtra("bookNameForChapter")
            viewModel.chapterInsert(chapter, bookName!!)
+           viewModel.updateTimeWhenAddChapter(bookName)
        } else {
            Toast.makeText(this, "Don have chapter to add", Toast.LENGTH_SHORT).show()
        }
@@ -68,5 +102,16 @@ class ListChapterActivity : FragmentActivity(),
         readingIntent.putExtra("chapterContent", chapter.content)
         readingIntent.putExtra("chapterBookName", chapter.bookName)
         startActivity(readingIntent)
+    }
+
+    private fun checkUserAccessLevel(uid: String) {
+        val df: DocumentReference = fStore.collection("User").document(uid)
+        df.get().addOnSuccessListener {
+            if (it.getString("IsAdmin") == "isAdmin") {
+                binding.btnAdd.visibility = View.VISIBLE
+            } else if (it.getString("IsAdmin") == "isUser") {
+                binding.btnAdd.visibility = View.GONE
+            }
+        }
     }
 }

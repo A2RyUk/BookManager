@@ -18,7 +18,9 @@ val searchDiff = object : DiffUtil.ItemCallback<Book>() {
     }
 }
 
-class SearchBookAdapter() : ListAdapter<Book, SearchBookAdapter.ViewHolder>(searchDiff) {
+class SearchBookAdapter(
+    private var searchBookListener: SearchItemClickListener
+) : ListAdapter<Book, SearchBookAdapter.ViewHolder>(searchDiff) {
     class ViewHolder(
         private val binding: ItemBookSearchViewBinding
     ): RecyclerView.ViewHolder(binding.root) {
@@ -26,6 +28,10 @@ class SearchBookAdapter() : ListAdapter<Book, SearchBookAdapter.ViewHolder>(sear
             binding.book = book
             binding.executePendingBindings()
         }
+    }
+
+    interface SearchItemClickListener {
+        fun searchItemClick(book: Book)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -37,6 +43,9 @@ class SearchBookAdapter() : ListAdapter<Book, SearchBookAdapter.ViewHolder>(sear
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         getItem(position)?.let {
             holder.bind(it)
+        }
+        holder.itemView.setOnClickListener {
+            searchBookListener.searchItemClick(getItem(position))
         }
     }
 }

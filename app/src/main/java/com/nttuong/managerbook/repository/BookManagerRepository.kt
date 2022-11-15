@@ -17,6 +17,8 @@ class BookManagerRepository(private val bookManagerDao: BookManagerDao) {
     val getAllAuthors: LiveData<List<Author>> = bookManagerDao.getAllAuthors()
     val getAllCategories: LiveData<List<Category>> = bookManagerDao.getAllCategories()
     val getAllChapters: LiveData<List<Chapter>> = bookManagerDao.getAllChapters()
+    val getAllBooksByUpdateDate: LiveData<List<Book>> = bookManagerDao.getAllBookOrderByUpdateDate()
+    val getAllBooksByPostDate: LiveData<List<Book>> = bookManagerDao.getAllBookOrderByPostDate()
 
     //book
     suspend fun insertBook(book : Book) {
@@ -97,5 +99,8 @@ class BookManagerRepository(private val bookManagerDao: BookManagerDao) {
     }
     fun getAllBookByCategory(category: String) : Flow<List<Book>> {
         return bookManagerDao.getAllBookByCategory(category)
+    }
+    suspend fun getBookByName(bookName: String) : Book {
+        return bookManagerDao.getBookByName(bookName)
     }
 }

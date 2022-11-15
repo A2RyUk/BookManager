@@ -2,6 +2,7 @@ package com.nttuong.managerbook.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -22,6 +23,11 @@ class DetailBookActivity: AppCompatActivity() {
         setContentView(binding.root)
 
         updateUI()
+
+        setSupportActionBar(binding.toolbar)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setDisplayShowTitleEnabled(false)
+
         viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application))
             .get(BookManagerViewModel::class.java)
 
@@ -41,8 +47,13 @@ class DetailBookActivity: AppCompatActivity() {
     }
 
     private fun updateNewChapter(listChapter: List<Chapter>) {
-        binding.tvChapNumber.text = listChapter[listChapter.size - 1].chapNumber.toString()
-        binding.tvChapName.text = listChapter[listChapter.size - 1].chapName.toString()
+        if (listChapter.isNotEmpty()) {
+            binding.tvChapNumber.text = listChapter[listChapter.size - 1].chapNumber.toString()
+            binding.tvChapName.text = listChapter[listChapter.size - 1].chapName.toString()
+        } else {
+            binding.tvChapNumber.text = "0"
+            binding.tvChapName.text = ""
+        }
     }
 
     private fun updateUI() {
@@ -56,5 +67,15 @@ class DetailBookActivity: AppCompatActivity() {
             .placeholder(R.mipmap.ic_launcher)
             .error(R.mipmap.ic_launcher)
             .into(binding.imgAva)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

@@ -8,25 +8,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import com.nttuong.managerbook.R
+import com.nttuong.managerbook.activity.ChangePassActivity
 import com.nttuong.managerbook.activity.LoginActivity
 import com.nttuong.managerbook.activity.manager.ManagerAuthorActivity
 import com.nttuong.managerbook.activity.manager.ManagerBookActivity
 import com.nttuong.managerbook.activity.manager.ManagerCategoryActivity
 import com.nttuong.managerbook.databinding.FragmentAccountAdminBinding
 import com.nttuong.managerbook.fragment.account.ChangeImageDialog
+import com.nttuong.managerbook.fragment.account.ChangeNameDialog
 import java.util.*
 
-class AccountFragment : Fragment(), ChangeImageDialog.ChangeImageDialogListener {
+class AccountFragment : Fragment(), 
+    ChangeImageDialog.ChangeImageDialogListener,
+    ChangeNameDialog.ChangeNameDialogListener {
 
     private lateinit var binding: FragmentAccountAdminBinding
     private val fAuth = FirebaseAuth.getInstance()
     private val fStore = FirebaseFirestore.getInstance()
     private val fStorage = FirebaseStorage.getInstance()
-    private lateinit var selectedImg: Uri
+    private val userUid = fAuth.currentUser!!.uid
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,9 +40,8 @@ class AccountFragment : Fragment(), ChangeImageDialog.ChangeImageDialogListener 
     ): View? {
         binding = FragmentAccountAdminBinding.inflate(layoutInflater)
 
-        val user = fAuth.currentUser!!.uid
-        if (user != null) {
-            checkUserAccessLevel(user)
+        if (userUid != null) {
+            checkUserAccessLevel(userUid)
         } else {
             binding.constraintManagerBook.visibility = View.GONE
             binding.constraintManagerAuthor.visibility = View.GONE
@@ -65,9 +70,18 @@ class AccountFragment : Fragment(), ChangeImageDialog.ChangeImageDialogListener 
         }
 
         binding.btnChangeAvatar.setOnClickListener {
-
+            val avatarDialog = ChangeImageDialog()
+            avatarDialog.show(childFragmentManager, "changeAvatarDialog")
         }
-        
+
+        binding.btnChangeName.setOnClickListener {
+            val nameDialog = ChangeNameDialog()
+            nameDialog.show(childFragmentManager, "changeNameDialog")
+        }
+        binding.btnChangePass.setOnClickListener {
+            val intent = Intent(requireContext(), ChangePassActivity::class.java)
+            startActivity(intent)
+        }
         return binding.root
     }
 
@@ -81,6 +95,7 @@ class AccountFragment : Fragment(), ChangeImageDialog.ChangeImageDialogListener 
                 binding.txtManagerBook.visibility = View.VISIBLE
                 binding.txtAccountName.text = it.getString("FullName")
                 binding.txtAccountLevel.text = "Quản Trị Viên"
+                updateImage(it.getString("imgURL").toString())
             } else if (it.getString("IsAdmin") == "isUser") {
                 binding.constraintManagerBook.visibility = View.GONE
                 binding.constraintManagerAuthor.visibility = View.GONE
@@ -88,6 +103,7 @@ class AccountFragment : Fragment(), ChangeImageDialog.ChangeImageDialogListener 
                 binding.txtManagerBook.visibility = View.GONE
                 binding.txtAccountName.text = it.getString("FullName")
                 binding.txtAccountLevel.text = "Người Dùng"
+                updateImage(it.getString("imgURL").toString())
             }
         }
     }
@@ -99,6 +115,7 @@ class AccountFragment : Fragment(), ChangeImageDialog.ChangeImageDialogListener 
             "Đổi avatar thành công",
             Toast.LENGTH_SHORT
         ).show()
+        binding.imgAva.setImageURI(img)
     }
 
     override fun onChangeImageDialogNegativeClick(img: Uri?) {
@@ -113,8 +130,80 @@ class AccountFragment : Fragment(), ChangeImageDialog.ChangeImageDialogListener 
         val reference = fStorage.reference.child("Profile").child(Date().time.toString())
         reference.putFile(img!!).addOnCompleteListener {
             if (it.isSuccessful) {
-
+                reference.downloadUrl.addOnSuccessListener { task ->
+                    updateAvatarInfo(task.toString())
+                }
             }
+        }
+    }
+
+    private fun updateAvatarInfo(imgUrl: String) {
+        var name: String
+        var email: String
+        var pass: String
+        var admin: String
+        val df: DocumentReference = fStore.collection("User").document(userUid)
+        val userInfo = HashMap<String, Any>()
+        df.get().addOnSuccessListener {
+            name = it.getString("FullName").toString()
+            email = it.getString("Email").toString()
+            pass = it.getString("PassWord").toString()
+            admin = it.getString("IsAdmin").toString()
+            userInfo["FullName"] = name
+            userInfo["Email"] = email
+            userInfo["PassWord"] = pass
+            userInfo["IsAdmin"] = admin
+            userInfo["imgURL"] = imgUrl
+            df.set(userInfo)
+        }
+    }
+
+    private fun updateImage(imgUrl: String) {
+        Glide.with(binding.imgAva)
+            .load(imgUrl)
+            .placeholder(R.mipmap.ic_launcher)
+            .error(R.mipmap.ic_launcher)
+            .into(binding.imgAva)
+    }
+
+    override fun onChangeNameDialogPositiveClick(name: String?) {
+        if (name != null) {
+            binding.txtAccountName.text = name
+            changeName(name)
+        }
+        Toast.makeText(
+            requireContext(),
+            "Đổi tên thành công",
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    override fun onChangeNameDialogNegativeClick(name: String?) {
+        Toast.makeText(
+            requireContext(),
+            "You click cancel",
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    private fun changeName(name: String) {
+        val df: DocumentReference = fStore.collection("User").document(userUid)
+        val userInfo = HashMap<String, Any>()
+        var email: String
+        var pass: String
+        var admin: String
+        var imgUrl: String
+        df.get().addOnSuccessListener {
+            imgUrl = it.getString("imgURL").toString()
+            email = it.getString("Email").toString()
+            pass = it.getString("PassWord").toString()
+            admin = it.getString("IsAdmin").toString()
+            userInfo["FullName"] = name
+            userInfo["Email"] = email
+            userInfo["PassWord"] = pass
+            userInfo["IsAdmin"] = admin
+            userInfo["imgURL"] = imgUrl
+            df.set(userInfo)
         }
     }
 }

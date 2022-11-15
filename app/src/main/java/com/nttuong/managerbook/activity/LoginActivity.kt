@@ -61,14 +61,10 @@ class LoginActivity : AppCompatActivity() {
         df.get().addOnSuccessListener {
             if (it.getString("IsAdmin") == "isAdmin") {
                 val loginIntent = Intent(this, MainActivity::class.java)
-                loginIntent.putExtra("AccountName", it.getString("FullName"))
-                loginIntent.putExtra("AccountLevel", "Admin")
                 startActivity(loginIntent)
                 finish()
             } else if (it.getString("IsAdmin") == "isUser") {
                 val loginIntent = Intent(this, MainActivity::class.java)
-                loginIntent.putExtra("AccountName", it.getString("FullName"))
-                loginIntent.putExtra("AccountLevel", "User")
                 startActivity(loginIntent)
                 finish()
             }

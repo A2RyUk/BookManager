@@ -1,5 +1,6 @@
 package com.nttuong.managerbook.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
@@ -8,12 +9,18 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nttuong.managerbook.R
+import com.nttuong.managerbook.activity.DetailBookActivity
+import com.nttuong.managerbook.adapter.ChapterItemClickListener
 import com.nttuong.managerbook.adapter.SearchBookAdapter
 import com.nttuong.managerbook.databinding.FragmentSearchBinding
+import com.nttuong.managerbook.db.entities.Book
+import com.nttuong.managerbook.db.entities.Chapter
 import com.nttuong.managerbook.viewmodel.BookManagerViewModel
 
 
-class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
+class SearchFragment : Fragment(),
+    SearchView.OnQueryTextListener,
+    SearchBookAdapter.SearchItemClickListener {
     private lateinit var binding: FragmentSearchBinding
     private lateinit var adapter: SearchBookAdapter
     private val viewModel: BookManagerViewModel by activityViewModels()
@@ -25,7 +32,7 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
     ): View? {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
 
-        adapter = SearchBookAdapter()
+        adapter = SearchBookAdapter(this)
         binding.rcSearch.adapter = adapter
         binding.rcSearch.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
@@ -69,5 +76,17 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
     private fun searchData(query: String) {
         val searchQuery = "%$query"
         viewModel.searchWithText(searchQuery)
+    }
+
+    override fun searchItemClick(book: Book) {
+        val searchBookIntent = Intent(requireContext(), DetailBookActivity::class.java)
+        searchBookIntent.putExtra("itemClickBookID", book.bookId.toString())
+        searchBookIntent.putExtra("itemClickAvatar", book.avatar)
+        searchBookIntent.putExtra("itemClickName", book.name)
+        searchBookIntent.putExtra("itemClickAuthor", book.author)
+        searchBookIntent.putExtra("itemClickCategory", book.category)
+        searchBookIntent.putExtra("itemClickStatus", book.status)
+        searchBookIntent.putExtra("itemClickContent", book.content)
+        startActivity(searchBookIntent)
     }
 }

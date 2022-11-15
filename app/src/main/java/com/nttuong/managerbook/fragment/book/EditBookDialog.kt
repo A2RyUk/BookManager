@@ -116,8 +116,7 @@ class EditBookDialog(
                     val category = categoryChoose
                     val statusChoice = statusChoose
                     val content = binding.edtBookContent.text.toString()
-                    val datetime = LocalDateTime.now()
-                    val updateTime = Date.from(datetime.atZone(ZoneId.systemDefault()).toInstant())
+                    val updateTime = LocalDateTime.now()
                     val book = Book(id, avatar = avatar, name = name, author = author, category = category, status = statusChoice, content = content, postTime = oldBook.postTime, updateTime = updateTime)
                     listener.onEditBookDialogPositiveClick(book)
                 }

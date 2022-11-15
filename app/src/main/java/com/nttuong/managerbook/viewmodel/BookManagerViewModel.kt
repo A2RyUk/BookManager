@@ -2,7 +2,9 @@ package com.nttuong.managerbook.viewmodel
 
 import android.app.Application
 import android.content.Intent
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.*
 import androidx.paging.PagedList
 import com.nttuong.managerbook.db.BookManagerDataBase
@@ -15,13 +17,13 @@ import com.nttuong.managerbook.db.relationship.CategoryAndBook
 import com.nttuong.managerbook.repository.BookManagerRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.util.*
 
 enum class FilterType {
     NONE, FAVORITES, SEARCH_RESULTS, CATEGORY
-}
-
-enum class AccountLevel {
-    NONE, ADMIN, USER
 }
 
 class BookManagerViewModel(application: Application): AndroidViewModel(application) {
@@ -29,6 +31,8 @@ class BookManagerViewModel(application: Application): AndroidViewModel(applicati
     var getAllAuthorList: LiveData<List<Author>>
     var getAllCategoryList: LiveData<List<Category>>
     var getAllChapters: LiveData<List<Chapter>>
+    var getAllBookByUpdateDate: LiveData<List<Book>>
+    var getAllBooksByPostDate: LiveData<List<Book>>
     private var searchStr = ""
     private var searchCategory = ""
     private var bookName = MutableLiveData(String)
@@ -45,6 +49,8 @@ class BookManagerViewModel(application: Application): AndroidViewModel(applicati
         getAllAuthorList = bookManagerRepository.getAllAuthors
         getAllCategoryList = bookManagerRepository.getAllCategories
         getAllChapters = bookManagerRepository.getAllChapters
+        getAllBookByUpdateDate = bookManagerRepository.getAllBooksByUpdateDate
+        getAllBooksByPostDate = bookManagerRepository.getAllBooksByPostDate
     }
 
     private val allBooks = Transformations.switchMap(bookFilter) {
@@ -172,5 +178,12 @@ class BookManagerViewModel(application: Application): AndroidViewModel(applicati
         var nextChapterIndex = currentChapterIndex?.minus(1)
         Log.d("next", "chap index: $nextChapterIndex ")
         return listChapterOfBook[nextChapterIndex!!]
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun updateTimeWhenAddChapter(bookName: String) = viewModelScope.launch(Dispatchers.IO) {
+        val book = bookManagerRepository.getBookByName(bookName)
+        book.updateTime = LocalDateTime.now()
+        bookManagerRepository.updateBook(book)
     }
 }
