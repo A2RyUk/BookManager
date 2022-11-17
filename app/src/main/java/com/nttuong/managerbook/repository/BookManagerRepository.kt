@@ -19,6 +19,8 @@ class BookManagerRepository(private val bookManagerDao: BookManagerDao) {
     val getAllChapters: LiveData<List<Chapter>> = bookManagerDao.getAllChapters()
     val getAllBooksByUpdateDate: LiveData<List<Book>> = bookManagerDao.getAllBookOrderByUpdateDate()
     val getAllBooksByPostDate: LiveData<List<Book>> = bookManagerDao.getAllBookOrderByPostDate()
+    val getAllMostFavoriteBook: LiveData<List<Book>> = bookManagerDao.getAllFavoriteBook()
+    val getAllMostViewBook: LiveData<List<Book>> = bookManagerDao.getAllMostViewBook()
 
     //book
     suspend fun insertBook(book : Book) {

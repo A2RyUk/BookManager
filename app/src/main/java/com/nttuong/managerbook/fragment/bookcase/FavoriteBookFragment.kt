@@ -9,20 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.nttuong.managerbook.R
 import com.nttuong.managerbook.activity.DetailBookActivity
 import com.nttuong.managerbook.adapter.BookManagerAdapter
 import com.nttuong.managerbook.databinding.FragmentFavoriteBookBinding
 import com.nttuong.managerbook.db.entities.Book
 import com.nttuong.managerbook.viewmodel.BookManagerViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlin.math.log
 
 class FavoriteBookFragment : Fragment(),
     BookManagerAdapter.OnClickItemListener {

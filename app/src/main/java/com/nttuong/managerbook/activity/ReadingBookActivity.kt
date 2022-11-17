@@ -3,6 +3,7 @@ package com.nttuong.managerbook.activity
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -72,10 +73,12 @@ class ReadingBookActivity: AppCompatActivity() {
                 if (currentFavoriteState == favoriteState) {
                     val updateFavorite = hashMapOf("Favorite" to "no")
                     df.set(updateFavorite, SetOptions.merge())
+                    viewModel.minusFavorite(bookName)
                     binding.bottomMenu.btnFavorite.setImageResource(R.drawable.not_favorite)
                 } else {
                     val updateFavorite = hashMapOf("Favorite" to "yes")
                     df.set(updateFavorite, SetOptions.merge())
+                    viewModel.plusFavorite(bookName)
                     binding.bottomMenu.btnFavorite.setImageResource(R.drawable.is_favorite)
                 }
             } else {
@@ -131,6 +134,16 @@ class ReadingBookActivity: AppCompatActivity() {
                 }
             }
         }
+        val timer = object: CountDownTimer(30000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+
+            }
+
+            override fun onFinish() {
+                viewModel.plusViewToBook(bookName)
+            }
+        }
+        timer.start()
     }
 
     private fun getChapterFromIntent(): Chapter {

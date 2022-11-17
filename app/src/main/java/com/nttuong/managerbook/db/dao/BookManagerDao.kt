@@ -95,4 +95,8 @@ interface BookManagerDao {
     //get chapter by chapter number
     @Query("SELECT * FROM chapter_table WHERE chapNumber LIKE :number")
     suspend fun getChapterByNumber(number: Int) : Chapter
+    @Query("SELECT * FROM book_table WHERE favorites > 0 order by favorites DESC")
+    fun getAllFavoriteBook(): LiveData<List<Book>>
+    @Query("SELECT * FROM book_table WHERE `view` > 0 order by `view` DESC")
+    fun getAllMostViewBook(): LiveData<List<Book>>
 }

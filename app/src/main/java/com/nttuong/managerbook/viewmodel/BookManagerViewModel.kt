@@ -30,6 +30,9 @@ class BookManagerViewModel(application: Application): AndroidViewModel(applicati
     var getAllChapters: LiveData<List<Chapter>>
     var getAllBookByUpdateDate: LiveData<List<Book>>
     var getAllBooksByPostDate: LiveData<List<Book>>
+    var getAllMostFavoriteBook: LiveData<List<Book>>
+    var getAllMostViewBook: LiveData<List<Book>>
+
     private var searchStr = ""
     private var searchCategory = ""
     var bookFilter = MutableLiveData(FilterType.NONE)
@@ -45,6 +48,8 @@ class BookManagerViewModel(application: Application): AndroidViewModel(applicati
         getAllChapters = bookManagerRepository.getAllChapters
         getAllBookByUpdateDate = bookManagerRepository.getAllBooksByUpdateDate
         getAllBooksByPostDate = bookManagerRepository.getAllBooksByPostDate
+        getAllMostFavoriteBook = bookManagerRepository.getAllMostFavoriteBook
+        getAllMostViewBook = bookManagerRepository.getAllMostViewBook
     }
 
     private val allBooks = Transformations.switchMap(bookFilter) {
@@ -206,10 +211,10 @@ class BookManagerViewModel(application: Application): AndroidViewModel(applicati
             book2 = book1
             book1 = bookName
             var b1 = hashMapOf("Book1" to "$book1")
-            var b2 = hashMapOf("Book1" to "$book2")
-            var b3 = hashMapOf("Book1" to "$book3")
-            var b4 = hashMapOf("Book1" to "$book4")
-            var b5 = hashMapOf("Book1" to "$book5")
+            var b2 = hashMapOf("Book2" to "$book2")
+            var b3 = hashMapOf("Book3" to "$book3")
+            var b4 = hashMapOf("Book4" to "$book4")
+            var b5 = hashMapOf("Book5" to "$book5")
             readRecentDB.set(b1, SetOptions.merge())
             readRecentDB.set(b2, SetOptions.merge())
             readRecentDB.set(b3, SetOptions.merge())
@@ -241,5 +246,38 @@ class BookManagerViewModel(application: Application): AndroidViewModel(applicati
             }
         }
         return favoriteBooks
+    }
+
+    fun listRecentBookOfUser(listRecentBook: ArrayList<String>, books: List<Book>): List<Book>? {
+        var recentBooks = arrayListOf<Book>()
+        for (i in 0 until books.size) {
+            for (j in 0 until listRecentBook.size){
+                if (books[i].name == listRecentBook[j]) {
+                    recentBooks.add(books[i])
+                }
+            }
+        }
+        return recentBooks
+    }
+
+    fun minusFavorite(bookName: String) = viewModelScope.launch(Dispatchers.IO) {
+        var book = bookManagerRepository.getBookByName(bookName)
+        book.numberOfFavorites = book.numberOfFavorites - 1
+        Log.d("Book Favorite Number", "${book.numberOfFavorites}")
+        bookManagerRepository.updateBook(book)
+    }
+
+    fun plusFavorite(bookName: String) = viewModelScope.launch(Dispatchers.IO) {
+        var book = bookManagerRepository.getBookByName(bookName)
+        book.numberOfFavorites = book.numberOfFavorites + 1
+        Log.d("Book Favorite Number", "${book.numberOfFavorites}")
+        bookManagerRepository.updateBook(book)
+    }
+
+    fun plusViewToBook(bookName: String) = viewModelScope.launch(Dispatchers.IO) {
+        var book = bookManagerRepository.getBookByName(bookName)
+        book.numberOfView = book.numberOfView + 1
+        Log.d("Book Favorite Number", "${book.numberOfView}")
+        bookManagerRepository.updateBook(book)
     }
 }

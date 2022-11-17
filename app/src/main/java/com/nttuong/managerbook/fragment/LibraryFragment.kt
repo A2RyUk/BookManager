@@ -6,12 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.nttuong.managerbook.activity.CompleteListBook
-import com.nttuong.managerbook.activity.DetailBookActivity
-import com.nttuong.managerbook.activity.NewPostListBook
-import com.nttuong.managerbook.activity.UpdateListBook
+import com.nttuong.managerbook.activity.*
 import com.nttuong.managerbook.adapter.CustomAdapter
 import com.nttuong.managerbook.databinding.FragmentLibraryBinding
 import com.nttuong.managerbook.db.entities.Book
@@ -74,6 +72,17 @@ class LibraryFragment : Fragment(), CustomAdapter.CustomAdapterListener {
         binding.btnSeeComplete.setOnClickListener {
             val completeBookIntent = Intent(requireContext(), CompleteListBook::class.java)
             startActivity(completeBookIntent)
+        }
+        binding.constraintBtnView.setOnClickListener {
+            val viewBookIntent = Intent(requireContext(), MostViewBook::class.java)
+            startActivity(viewBookIntent)
+        }
+        binding.constraintBtnLike.setOnClickListener {
+            val favoriteBookIntent = Intent(requireContext(), MostFavoriteBook::class.java)
+            startActivity(favoriteBookIntent)
+        }
+        binding.constraintBtnComment.setOnClickListener {
+            Toast.makeText(requireContext(), "Hiện Tại App Đang sử dụng database OffLine nên không phát triển tính năng này!", Toast.LENGTH_SHORT).show()
         }
 
         return binding.root

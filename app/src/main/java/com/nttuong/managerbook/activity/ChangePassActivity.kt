@@ -11,6 +11,7 @@ import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import com.nttuong.managerbook.databinding.ActivityChangePassBinding
 
 class ChangePassActivity : AppCompatActivity() {
@@ -54,10 +55,10 @@ class ChangePassActivity : AppCompatActivity() {
                         .addOnCompleteListener {
                             if (it.isSuccessful) {
                                 val newPassword = binding.edtNewPass.text.toString()
+                                uploadNewPass(newPassword)
                                 user!!.updatePassword(binding.edtNewPass.text.toString())
                                     .addOnCompleteListener { task ->
                                         if (task.isSuccessful) {
-                                            uploadNewPass(newPassword)
                                             Toast.makeText(this, "Đổi Pass Thành Công! Hãy đăng nhập.", Toast.LENGTH_LONG).show()
                                             fAuth.signOut()
                                             startActivity(Intent(this, LoginActivity::class.java))
@@ -87,22 +88,7 @@ class ChangePassActivity : AppCompatActivity() {
     private fun uploadNewPass(newPass: String) {
         Log.d("PassWord", "uploadNewPass: $newPass")
         val df: DocumentReference = fStore.collection("User").document(userUid)
-        val userInfo = HashMap<String, Any>()
-        var email: String
-        var name: String
-        var admin: String
-        var imgUrl: String
-        df.get().addOnSuccessListener {
-            imgUrl = it.getString("imgURL").toString()
-            email = it.getString("Email").toString()
-            name = it.getString("FullName").toString()
-            admin = it.getString("IsAdmin").toString()
-            userInfo["FullName"] = name
-            userInfo["Email"] = email
-            userInfo["PassWord"] = newPass
-            userInfo["IsAdmin"] = admin
-            userInfo["imgURL"] = imgUrl
-            df.set(userInfo)
-        }
+        val pass = hashMapOf("PassWord" to newPass)
+        df.set(pass, SetOptions.merge())
     }
 }
