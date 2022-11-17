@@ -40,19 +40,19 @@
             android:textSize="24sp"/>
 
         <ImageButton
-            android:id="@+id/btn_bookMark"
+            android:id="@+id/btn_download"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:background="@android:color/transparent"
-            android:src="@drawable/bookmark" />
+            android:src="@drawable/ic_download" />
 
         <ImageButton
-            android:id="@+id/btn_comment"
+            android:id="@+id/btn_bookMark"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_marginStart="10dp"
             android:background="@android:color/transparent"
-            android:src="@drawable/comment_chap" />
+            android:src="@drawable/bookmark" />
 
         <ImageButton
             android:id="@+id/btn_favorite"
@@ -60,7 +60,7 @@
             android:layout_height="36dp"
             android:layout_marginStart="10dp"
             android:background="@android:color/transparent"
-            android:src="@drawable/favorite_chap" />
+            android:src="@drawable/not_favorite" />
 
 
     </LinearLayout>

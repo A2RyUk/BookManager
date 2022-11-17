@@ -15,19 +15,6 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface BookManagerDao {
 
-    @Transaction
-    @Query("SELECT * FROM book_table WHERE bookName = :bookName")
-    fun getListChaptersOfBook(bookName: String): List<BookAndChapter>
-
-    @Transaction
-    @Query("SELECT * FROM category_table WHERE categoryName = :categoryName")
-    fun getListBooksOfCategory(categoryName: String): List<CategoryAndBook>
-
-    @Transaction
-    @Query("SELECT * FROM author_table WHERE authorName = :authorName")
-    fun getListBooksOfAuthor(authorName: String): List<AuthorAndBook>
-
-
     //Book
     @Query("SELECT * FROM book_table order by bookId ASC")
     fun getAllBooks(): LiveData<List<Book>>
@@ -104,6 +91,8 @@ interface BookManagerDao {
     fun searchByCategory(categoryName: String): Flow<List<Book>>
     //get book by name
     @Query("SELECT * FROM book_table WHERE bookName LIKE :bookName")
-    suspend fun getBookByName(bookName: String) : Book
-
+    fun getBookByName(bookName: String) : Book
+    //get chapter by chapter number
+    @Query("SELECT * FROM chapter_table WHERE chapNumber LIKE :number")
+    suspend fun getChapterByNumber(number: Int) : Chapter
 }

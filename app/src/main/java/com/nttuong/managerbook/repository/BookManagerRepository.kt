@@ -72,19 +72,6 @@ class BookManagerRepository(private val bookManagerDao: BookManagerDao) {
         bookManagerDao.deleteChapterByName(name = name)
     }
 
-    //relationship
-    fun getListChaptersOfBook(bookName: String) : List<BookAndChapter> {
-        return bookManagerDao.getListChaptersOfBook(bookName)
-    }
-
-    fun getListBooksOfCategory(categoryName: String) : List<CategoryAndBook> {
-        return bookManagerDao.getListBooksOfCategory(categoryName)
-    }
-
-    fun getListBooksOfAuthor(authorName: String) : List<AuthorAndBook> {
-        return bookManagerDao.getListBooksOfAuthor(authorName)
-    }
-
     //search function
     fun searchBook(query: String) : Flow<List<Book>> {
         return bookManagerDao.searchDataBase(query)
@@ -100,7 +87,10 @@ class BookManagerRepository(private val bookManagerDao: BookManagerDao) {
     fun getAllBookByCategory(category: String) : Flow<List<Book>> {
         return bookManagerDao.getAllBookByCategory(category)
     }
-    suspend fun getBookByName(bookName: String) : Book {
+    fun getBookByName(bookName: String) : Book {
         return bookManagerDao.getBookByName(bookName)
+    }
+    suspend fun getChapterByNumber(chapNumber: Int) : Chapter {
+        return bookManagerDao.getChapterByNumber(chapNumber)
     }
 }

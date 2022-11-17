@@ -11,9 +11,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 import com.nttuong.managerbook.activity.ReadingBookActivity
 import com.nttuong.managerbook.adapter.ChapterItemClickListener
@@ -95,6 +97,47 @@ class ListChapterActivity : AppCompatActivity(),
     }
 
     override fun itemClick(chapter: Chapter) {
+        val userUID = fAuth.currentUser!!.uid
+        if (userUID.isNotEmpty()) {
+            val df = fStore.collection("User").document(userUID)
+                .collection("ListBook").document(chapter.bookName.toString())
+            df.get().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val document = task.result
+                    if (document.exists()) {
+                        if (document.get("ReadToChap") != null) {
+                            val readToOnSever = document.getString("ReadToChap").toString().toInt()
+                            if (readToOnSever < chapter.chapNumber!!) {
+                                val readTo = hashMapOf("ReadToChap" to "${chapter.chapNumber}")
+                                df.set(readTo, SetOptions.merge())
+                            }
+                        } else {
+                            val readTo = hashMapOf("ReadToChap" to "${chapter.chapNumber}")
+                            df.set(readTo, SetOptions.merge())
+                        }
+                    } else {
+                        val readTo = hashMapOf("ReadToChap" to "${chapter.chapNumber}")
+                        df.set(readTo, SetOptions.merge())
+                    }
+                }
+            }
+            val readRecentDB = fStore.collection("User").document(userUID)
+                .collection("RecentBook").document("ReadRecent")
+            readRecentDB.get().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val document = task.result
+                    if (document.exists()) {
+                        if (document.get("Book1") != null) {
+                            viewModel.addNewAndDeleteOldBook(readRecentDB, document, chapter.bookName)
+                        } else {
+                            viewModel.addAndCreateField(readRecentDB, chapter.bookName)
+                        }
+                    } else {
+                        viewModel.addAndCreateField(readRecentDB, chapter.bookName)
+                    }
+                }
+            }
+        }
         val readingIntent = Intent(this, ReadingBookActivity::class.java)
         readingIntent.putExtra("chapterID", chapter.chapterId.toString())
         readingIntent.putExtra("chapterName", chapter.chapName)

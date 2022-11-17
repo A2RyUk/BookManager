@@ -1,26 +1,23 @@
 package com.nttuong.managerbook.viewmodel
 
 import android.app.Application
-import android.content.Intent
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.*
-import androidx.paging.PagedList
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.*
 import com.nttuong.managerbook.db.BookManagerDataBase
 import com.nttuong.managerbook.db.entities.Author
 import com.nttuong.managerbook.db.entities.Book
 import com.nttuong.managerbook.db.entities.Category
 import com.nttuong.managerbook.db.entities.Chapter
-import com.nttuong.managerbook.db.relationship.AuthorAndBook
-import com.nttuong.managerbook.db.relationship.CategoryAndBook
 import com.nttuong.managerbook.repository.BookManagerRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.ZoneId
 import java.util.*
+import kotlin.collections.ArrayList
 
 enum class FilterType {
     NONE, FAVORITES, SEARCH_RESULTS, CATEGORY
@@ -35,16 +32,13 @@ class BookManagerViewModel(application: Application): AndroidViewModel(applicati
     var getAllBooksByPostDate: LiveData<List<Book>>
     private var searchStr = ""
     private var searchCategory = ""
-    private var bookName = MutableLiveData(String)
     var bookFilter = MutableLiveData(FilterType.NONE)
-    //account level
 
     var bookManagerRepository: BookManagerRepository
 
-
     init {
         val bookManagerDao = BookManagerDataBase.getDatabase(application).getBookManagerDao()
-        bookManagerRepository = BookManagerRepository(bookManagerDao,)
+        bookManagerRepository = BookManagerRepository(bookManagerDao)
         getAllBookList = bookManagerRepository.getAllBooks
         getAllAuthorList = bookManagerRepository.getAllAuthors
         getAllCategoryList = bookManagerRepository.getAllCategories
@@ -97,6 +91,10 @@ class BookManagerViewModel(application: Application): AndroidViewModel(applicati
         }
         return completeBook
     }
+
+    //all favorite book with user
+    //get list favorite book name of user
+    var bookName = MutableLiveData<ArrayList<String>>()
 
     //Basic function insert delete edit
     //Book
@@ -185,5 +183,63 @@ class BookManagerViewModel(application: Application): AndroidViewModel(applicati
         val book = bookManagerRepository.getBookByName(bookName)
         book.updateTime = LocalDateTime.now()
         bookManagerRepository.updateBook(book)
+    }
+
+    suspend fun getReadToChapter(chapNumber: Int) : Chapter {
+        return bookManagerRepository.getChapterByNumber(chapNumber)
+    }
+
+    fun addNewAndDeleteOldBook(readRecentDB: DocumentReference, document: DocumentSnapshot?, bookName: String?) {
+        var book1 = document!!.getString("Book1")
+        var book2 = document!!.getString("Book2")
+        var book3 = document!!.getString("Book3")
+        var book4 = document!!.getString("Book4")
+        var book5 = document!!.getString("Book5")
+        if (bookName != book1 &&
+            bookName != book2 &&
+            bookName != book3 &&
+            bookName != book4 &&
+            bookName != book5) {
+            book5 = book4
+            book4 = book3
+            book3 = book2
+            book2 = book1
+            book1 = bookName
+            var b1 = hashMapOf("Book1" to "$book1")
+            var b2 = hashMapOf("Book1" to "$book2")
+            var b3 = hashMapOf("Book1" to "$book3")
+            var b4 = hashMapOf("Book1" to "$book4")
+            var b5 = hashMapOf("Book1" to "$book5")
+            readRecentDB.set(b1, SetOptions.merge())
+            readRecentDB.set(b2, SetOptions.merge())
+            readRecentDB.set(b3, SetOptions.merge())
+            readRecentDB.set(b4, SetOptions.merge())
+            readRecentDB.set(b5, SetOptions.merge())
+        }
+    }
+
+    fun addAndCreateField(readRecentDB: DocumentReference, bookName: String?) {
+        val book1 = hashMapOf("Book1" to "$bookName")
+        val book2 = hashMapOf("Book2" to "0")
+        val book3 = hashMapOf("Book3" to "0")
+        val book4 = hashMapOf("Book4" to "0")
+        val book5 = hashMapOf("Book5" to "0")
+        readRecentDB.set(book1, SetOptions.merge())
+        readRecentDB.set(book2, SetOptions.merge())
+        readRecentDB.set(book3, SetOptions.merge())
+        readRecentDB.set(book4, SetOptions.merge())
+        readRecentDB.set(book5, SetOptions.merge())
+    }
+
+    fun getAllFavoriteBook(books: List<Book>, favoriteBooksName: ArrayList<String>) : List<Book> {
+        var favoriteBooks = arrayListOf<Book>()
+        for (i in 0 until books.size) {
+            for (j in 0 until favoriteBooksName.size){
+                if (books[i].name == favoriteBooksName[j]) {
+                    favoriteBooks.add(books[i])
+                }
+            }
+        }
+        return favoriteBooks
     }
 }

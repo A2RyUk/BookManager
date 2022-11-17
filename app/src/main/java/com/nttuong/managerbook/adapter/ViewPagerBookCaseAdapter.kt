@@ -8,8 +8,8 @@ import com.nttuong.managerbook.fragment.bookcase.ReadRecentlyFragment
 import com.nttuong.managerbook.fragment.bookcase.WasDownloadFragment
 
 class ViewPagerBookCaseAdapter(
-    activity: AppCompatActivity
-) :FragmentStateAdapter(activity) {
+    fragment: Fragment
+) :FragmentStateAdapter(fragment) {
     override fun getItemCount(): Int = 3
 
     override fun createFragment(position: Int): Fragment {

@@ -5,8 +5,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
+import com.nttuong.managerbook.R
 import com.nttuong.managerbook.activity.manager.ListChapterActivity
 import com.nttuong.managerbook.databinding.ActivityReadingBookBinding
 import com.nttuong.managerbook.db.entities.Chapter
@@ -18,6 +23,8 @@ class ReadingBookActivity: AppCompatActivity() {
     private lateinit var viewModel: BookManagerViewModel
     private lateinit var chapName: String
     private lateinit var bookName: String
+    private val fAuth = FirebaseAuth.getInstance()
+    private val fStore = FirebaseFirestore.getInstance()
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,6 +62,26 @@ class ReadingBookActivity: AppCompatActivity() {
                 }
             }
         }
+        binding.bottomMenu.btnFavorite.setOnClickListener {
+            val userUID = fAuth.currentUser!!.uid
+            var currentFavoriteState = binding.bottomMenu.btnFavorite.drawable.constantState
+            var favoriteState = getDrawable(R.drawable.is_favorite)!!.constantState
+            if (userUID.isNotEmpty()) {
+                val df = fStore.collection("User").document(userUID)
+                    .collection("ListBook").document(bookName)
+                if (currentFavoriteState == favoriteState) {
+                    val updateFavorite = hashMapOf("Favorite" to "no")
+                    df.set(updateFavorite, SetOptions.merge())
+                    binding.bottomMenu.btnFavorite.setImageResource(R.drawable.not_favorite)
+                } else {
+                    val updateFavorite = hashMapOf("Favorite" to "yes")
+                    df.set(updateFavorite, SetOptions.merge())
+                    binding.bottomMenu.btnFavorite.setImageResource(R.drawable.is_favorite)
+                }
+            } else {
+                Toast.makeText(this, "Bạn phải đăng nhập để sử dụng tính năng này!", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -64,6 +91,27 @@ class ReadingBookActivity: AppCompatActivity() {
         binding.topMenu.txtBookName.text = chapter.bookName
         chapName = chapter.chapName.toString()
         bookName = chapter.bookName.toString()
+        val userUID = fAuth.currentUser!!.uid
+        if (userUID.isNotEmpty()) {
+            val df = fStore.collection("User").document(userUID)
+                .collection("ListBook").document(chapter.bookName.toString())
+            df.get().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val document = task.result
+                    val readToOnSever = document.getString("ReadToChap").toString().toInt()
+                    if (readToOnSever < chapter.chapNumber!!) {
+                        val readTo = hashMapOf("ReadToChap" to "${chapter.chapNumber}")
+                        df.set(readTo, SetOptions.merge())
+                    }
+                    val favorite = document.getString("Favorite")
+                    if (favorite == "yes") {
+                        binding.bottomMenu.btnFavorite.setImageResource(R.drawable.is_favorite)
+                    } else {
+                        binding.bottomMenu.btnFavorite.setImageResource(R.drawable.not_favorite)
+                    }
+                }
+            }
+        }
         viewModel.getAllChaptersByName(bookName).observe(this) { list ->
             list?.let {
                 if (it.size == 1) {
@@ -109,9 +157,5 @@ class ReadingBookActivity: AppCompatActivity() {
             binding.bottomMenu.llBottomMenu.visibility = View.VISIBLE
         }
         touch = !touch
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
     }
 }

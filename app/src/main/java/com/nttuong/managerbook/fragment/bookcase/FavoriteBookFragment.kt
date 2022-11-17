@@ -1,60 +1,83 @@
 package com.nttuong.managerbook.fragment.bookcase
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.nttuong.managerbook.R
+import com.nttuong.managerbook.activity.DetailBookActivity
+import com.nttuong.managerbook.adapter.BookManagerAdapter
+import com.nttuong.managerbook.databinding.FragmentFavoriteBookBinding
+import com.nttuong.managerbook.db.entities.Book
+import com.nttuong.managerbook.viewmodel.BookManagerViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlin.math.log
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class FavoriteBookFragment : Fragment(),
+    BookManagerAdapter.OnClickItemListener {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [FavoriteBookFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class FavoriteBookFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var binding: FragmentFavoriteBookBinding
+    private val viewModel: BookManagerViewModel by activityViewModels()
+    private val fAuth = FirebaseAuth.getInstance()
+    private val fStore = FirebaseFirestore.getInstance()
+    private lateinit var favoriteBookAdapter: BookManagerAdapter
+    private val userUID = fAuth.currentUser!!.uid
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorite_book, container, false)
-    }
+        binding = FragmentFavoriteBookBinding.inflate(inflater, container, false)
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FavoriteBookFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FavoriteBookFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+        favoriteBookAdapter = BookManagerAdapter(this)
+        binding.rcFavoriteBook.adapter = favoriteBookAdapter
+        binding.rcFavoriteBook.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+
+        if (userUID.isNotEmpty()) {
+            val userDB = fStore.collection("User").document(userUID)
+                .collection("ListBook").whereEqualTo("Favorite", "yes")
+            userDB.addSnapshotListener { value, e ->
+                if (e != null) {
+                    Toast.makeText(requireContext(), "Không thể lắng nghe dữ liệu trên firebase", Toast.LENGTH_SHORT).show()
+                    return@addSnapshotListener
+                }
+                var listBookFavoriteName = ArrayList<String>()
+                for (doc in value!!) {
+                    listBookFavoriteName.add(doc.id)
+                    Log.d("Log de test", "${doc.id}")
+                }
+                //get list book from room and post to adapter
+                viewModel.getAllBookList.observe(viewLifecycleOwner) { list->
+                    list?.let {
+                        favoriteBookAdapter.submitList(viewModel.getAllFavoriteBook(it, listBookFavoriteName))
+                        Log.d("Log de test", "${viewModel.getAllFavoriteBook(it, listBookFavoriteName)}")
+                    }
                 }
             }
+        }
+        return binding.root
+    }
+
+    override fun itemClick(book: Book) {
+        val detailFavoriteBookIntent = Intent(requireContext(), DetailBookActivity::class.java)
+        detailFavoriteBookIntent.putExtra("itemClickBookID", book.bookId.toString())
+        detailFavoriteBookIntent.putExtra("itemClickAvatar", book.avatar)
+        detailFavoriteBookIntent.putExtra("itemClickName", book.name)
+        detailFavoriteBookIntent.putExtra("itemClickAuthor", book.author)
+        detailFavoriteBookIntent.putExtra("itemClickCategory", book.category)
+        detailFavoriteBookIntent.putExtra("itemClickStatus", book.status)
+        detailFavoriteBookIntent.putExtra("itemClickContent", book.content)
+        startActivity(detailFavoriteBookIntent)
     }
 }

@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayoutMediator
-import com.nttuong.managerbook.R
 import com.nttuong.managerbook.adapter.ViewPagerBookCaseAdapter
 import com.nttuong.managerbook.databinding.FragmentBookcaseBinding
 
@@ -19,10 +18,10 @@ class BookcaseFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentBookcaseBinding.inflate(layoutInflater)
+        binding = FragmentBookcaseBinding.inflate(inflater, container, false)
 
         val tabTitles = arrayOf("Yêu thích", "Đọc gần đây", "Đã tải về")
-        binding.vpBookcase.adapter = ViewPagerBookCaseAdapter(requireActivity() as AppCompatActivity)
+        binding.vpBookcase.adapter = ViewPagerBookCaseAdapter(this)
         TabLayoutMediator(binding.tabBookcase, binding.vpBookcase) {
             tab, position -> tab.text = tabTitles[position]
         }.attach()
